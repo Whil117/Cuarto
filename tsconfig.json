@@ -1,7 +1,32 @@
 {
   "compilerOptions": {
-    "target": "es5",
-    "lib": ["dom", "dom.iterable", "esnext"],
+    "baseUrl": "./src",
+    "paths": {
+      "@Assets/*": [
+        "assets/*"
+      ],
+      "@Components/*": [
+        "components/*"
+      ],
+      "@Helpers/*": [
+        "helpers/*"
+      ],
+      "@Hooks/*": [
+        "hooks/*"
+      ],
+      "@Styles/*": [
+        "styles/*"
+      ],
+      "@Types/*": [
+        "types/*"
+      ],
+    },
+    "target": "es2020",
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
     "allowJs": true,
     "skipLibCheck": true,
     "strict": true,
@@ -12,9 +37,18 @@
     "moduleResolution": "node",
     "resolveJsonModule": true,
     "isolatedModules": true,
+    "incremental": true,
     "jsx": "preserve",
-    "incremental": true
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
-  "exclude": ["node_modules"]
+  "include": [
+    "next-env.d.ts",
+    "emotion.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    "src/pages/_app.tsx"
+  ],
+  "exclude": [
+    "node_modules",
+    ".next"
+  ]
 }
