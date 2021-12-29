@@ -5,7 +5,7 @@ export const NavbarStyled = styled.nav`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  width: 175px;
+  width: 205px;
   padding: 0px 20px;
   background: #ffffff;
   box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.25);
