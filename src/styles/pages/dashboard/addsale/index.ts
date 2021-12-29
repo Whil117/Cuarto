@@ -149,3 +149,7 @@ export const AddSaleSubmitButton = styled.button`
   font-size: 14px;
   font-weight: bold;
 `;
+
+export const AddSaleContainer = styled.div`
+  margin: 10px 0;
+`;

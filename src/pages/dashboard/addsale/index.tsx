@@ -3,12 +3,12 @@ import addCuartoForm, {
   initialState
 } from '@Assets/addCuarto';
 import AtomIcon from '@Components/Atoms/Svg';
-import reducer from '@Helpers/pages/addsale/reducer';
+import reducer, { TypesReducers } from '@Helpers/pages/addsale/reducer';
 import { DashboardStyled } from '@Styles/pages/dashboard';
 import * as S from '@Styles/pages/dashboard/addsale';
 import useTranslation from 'next-translate/useTranslation';
 import { FC, useReducer } from 'react';
-import { DeleteOffer } from 'redux/actions/actions';
+// import { DeleteOffer } from 'redux/actions/actions';
 
 type Image = {
   target: {
@@ -56,7 +56,7 @@ const Addsale: FC = (props) => {
     event: {
       target: { value: string; name: string };
     },
-    type: string
+    type: keyof typeof TypesReducers
   ) => {
     dispatch({
       type,
@@ -66,13 +66,17 @@ const Addsale: FC = (props) => {
 
   const handleDeleteImage = (url: string) => {
     dispatch({
-      type: 'DELETE_IMAGE',
+      type: 'DELETE_IMAGES',
       payload: { url }
     });
   };
+  // const handlePrice = (event:PayloadEvent)=> {
+  //   dispatch({
+  //     type: 'ADD_PRICE',
+  //     payload: { event }
+  //   });
+  // }
   console.log(data);
-
-  console.log(data.offer);
 
   return (
     <DashboardStyled>
@@ -165,9 +169,9 @@ const Addsale: FC = (props) => {
               ))}
           </S.AddSaleImages>
         </S.AddSalesImagesContainer>
-        <div>
+        <S.AddSaleContainer>
           {t('add-sale-sub-title-6')}*
-          {addCuartoForm.map((item, index) => (
+          {addCuartoForm.map((item) => (
             <S.AddSaleLabel key={item.id} htmlFor={item.id}>
               {t(item.name)}
               <S.AddSaleInput
@@ -175,17 +179,18 @@ const Addsale: FC = (props) => {
                 type={item.type}
                 id={item.id}
                 name={item.nameInput}
+                defaultValue={data.details[item.defaultValue]}
                 min='1'
                 max='5'
-                value={data.details[item.nameInput]}
+                value={data.details[item.defaultValue]}
                 onChange={(event) =>
                   handleChangeDetailsState(event, 'ADD_DETAILS')
                 }
               />
             </S.AddSaleLabel>
           ))}
-        </div>
-        <div>
+        </S.AddSaleContainer>
+        <S.AddSaleContainer>
           {t('add-sale-sub-title-7')}*
           <S.AddSaleOfferContainer height='auto'>
             {addCuartoOffers.map((item) => (
@@ -203,7 +208,10 @@ const Addsale: FC = (props) => {
                     if (isData) {
                       console.log('dispatch');
 
-                      dispatch(DeleteOffer(item.value));
+                      dispatch({
+                        type: 'DELETE_OFFER',
+                        payload: item.value
+                      });
                     } else {
                       handleChangeDetailsState(event, 'ADD_OFFER');
                     }
@@ -212,7 +220,18 @@ const Addsale: FC = (props) => {
               </S.AddSaleOfferLabel>
             ))}
           </S.AddSaleOfferContainer>
-        </div>
+        </S.AddSaleContainer>
+        <S.AddSaleContainer>
+          {t('add-sale-sub-title-8')}*
+          <div>
+            <p>{t('add-sale-sub-title-text-8-1')}</p>
+            <S.AddSaleInput
+              type='text'
+              id='images'
+              onChange={(event) => handleChangeDetailsState(event, 'ADD_PRICE')}
+            />
+          </div>
+        </S.AddSaleContainer>
         <S.AddSaleSubmitButton type='submit'>Send</S.AddSaleSubmitButton>
       </S.AddSaleForm>
     </DashboardStyled>

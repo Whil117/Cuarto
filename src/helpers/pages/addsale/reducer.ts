@@ -1,71 +1,55 @@
-type State = {
-  title: string;
-  description: string;
-  price: string;
-  address: string;
-  images: string[];
-  details:
-    | {
-        rooms: string;
-        bathrooms: string;
-        bedrooms: string;
-        kitchens: string;
+import { PayloadEvent, State } from '@Types/helpers/pages/addsale/reducer';
+
+export const TypesReducers = {
+  ADD_IMAGES: (state: State, payload: { images: string }) => ({
+    ...state,
+    images: [...state.images, payload.images]
+  }),
+  DELETE_IMAGES: (state: State, payload: { url: string }) => ({
+    ...state,
+    images: state.images.filter((image) => image !== payload.url)
+  }),
+  CHANGE: (state: State, payload: PayloadEvent) => ({
+    ...state,
+    [payload.event.target.name]: payload.event.target.value
+  }),
+  ADD_DETAILS: (state: State, payload: PayloadEvent) => ({
+    ...state,
+    details: {
+      ...state.details,
+      [payload.event.target.name]: Number(payload.event.target.value)
+    }
+  }),
+  ADD_OFFER: (state: State, payload: PayloadEvent) => ({
+    ...state,
+    offer: (() => {
+      if (state.offer.find((offer) => offer === payload.event.target.value)) {
+        return state.offer;
+      } else {
+        return [...state.offer, payload.event.target.value];
       }
-    | any;
-  offer: string[];
+    })()
+  }),
+  DELETE_OFFER: (state: State, payload: string) => ({
+    ...state,
+    offer: state.offer.filter((offer) => offer !== payload)
+  }),
+  ADD_PRICE: (state: State, payload: PayloadEvent) => ({
+    ...state,
+    price: Number(payload.event.target.value)
+  })
 };
 
 type IAction = {
-  type: string;
+  type: keyof typeof TypesReducers;
   payload: any;
 };
+
 const reducer = (state: State, action: IAction): State => {
-  switch (action.type) {
-    case 'ADD_IMAGES':
-      return {
-        ...state,
-        images: [...state.images, action.payload.images]
-      };
-    case 'DELETE_IMAGE':
-      return {
-        ...state,
-        images: state.images.filter((image) => image !== action.payload.url)
-      };
-    case 'CHANGE':
-      return {
-        ...state,
-        [action.payload.event.target.name]: action.payload.event.target.value
-      };
-    case 'ADD_DETAILS':
-      return {
-        ...state,
-        details: {
-          ...state.details,
-          [action.payload.event.target.name]: action.payload.event.target.value
-        }
-      };
-    case 'ADD_OFFER':
-      return {
-        ...state,
-        offer: (function () {
-          if (
-            state.offer.find(
-              (offer) => offer === action.payload.event.target.value
-            )
-          ) {
-            return state.offer;
-          } else {
-            return [...state.offer, action.payload.event.target.value];
-          }
-        })()
-      };
-    case 'DELETE_OFFER':
-      return {
-        ...state,
-        offer: state.offer.filter((offer) => offer !== action.payload)
-      };
-    default:
-      return state;
-  }
+  const { type, payload } = action;
+  const TypeReducer = TypesReducers[type];
+  const Reducer = TypeReducer ? TypeReducer(state, payload) : state;
+  return Reducer;
 };
+
 export default reducer;

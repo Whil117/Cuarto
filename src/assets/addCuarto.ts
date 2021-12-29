@@ -2,6 +2,7 @@ const addCuartoForm = [
   {
     name: 'add-sale-sub-title-6-1',
     nameInput: 'rooms',
+    defaultValue: 0,
     type: 'number',
     id: 'add-sale-sub-title-6-1',
     label: 'add-sale-sub-title-6-1'
@@ -9,6 +10,7 @@ const addCuartoForm = [
   {
     name: 'add-sale-sub-title-6-2',
     type: 'number',
+    defaultValue: 0,
     nameInput: 'bathrooms',
     id: 'add-sale-sub-title-6-2',
     label: 'add-sale-sub-title-6-2'
@@ -16,6 +18,7 @@ const addCuartoForm = [
   {
     name: 'add-sale-sub-title-6-3',
     type: 'number',
+    defaultValue: 0,
     nameInput: 'bedrooms',
     id: 'add-sale-sub-title-6-3',
     label: 'add-sale-sub-title-6-3'
@@ -23,6 +26,7 @@ const addCuartoForm = [
   {
     name: 'add-sale-sub-title-6-4',
     type: 'number',
+    defaultValue: 0,
     nameInput: 'kitchens',
     id: 'add-sale-sub-title-6-4',
     label: 'add-sale-sub-title-6-4'
@@ -93,13 +97,13 @@ export const initialState = {
   title: '',
   description: '',
   address: '',
-  price: '',
+  price: 0,
   images: [],
   details: {
-    rooms: '',
-    bathrooms: '',
-    bedrooms: '',
-    kitchens: ''
+    rooms: 0,
+    bathrooms: 0,
+    bedrooms: 0,
+    kitchens: 0
   },
   offer: []
 };
