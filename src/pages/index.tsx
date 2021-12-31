@@ -35,7 +35,6 @@ const Index: NextPage = () => {
     await axios
       .post(url, user)
       .then((res) => {
-        console.log(res.data);
         if (res.data.token) {
           router.replace('/dashboard');
           Cookies.set('accessToken', res.data.token);

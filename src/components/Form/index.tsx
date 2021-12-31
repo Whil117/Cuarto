@@ -38,7 +38,6 @@ const FormLoggerUser: FC<IProps> = ({
           <ContainerFormInput
             type="text"
             id="user"
-            placeholder={t('form-login-placeholder-1')}
             name="username"
             value={user.username}
             onChange={handleChange}
@@ -53,7 +52,6 @@ const FormLoggerUser: FC<IProps> = ({
             id="pass"
             value={user.password}
             autoComplete="off"
-            placeholder={t('form-login-placeholder-2')}
             onChange={handleChange}
           />
         </label>
