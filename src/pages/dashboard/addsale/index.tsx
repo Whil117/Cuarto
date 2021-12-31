@@ -4,8 +4,9 @@ import addCuartoForm, {
 } from '@Assets/addCuarto';
 import AtomIcon from '@Components/Atoms/Svg';
 import reducer, { TypesReducers } from '@Helpers/pages/addsale/reducer';
-import { DashboardStyled } from '@Styles/pages/dashboard';
+import { DashboardStyled } from '@Styles/global';
 import * as S from '@Styles/pages/dashboard/addsale';
+import withAuth from 'auth/withAuth';
 import useTranslation from 'next-translate/useTranslation';
 import { FC, useReducer } from 'react';
 // import { DeleteOffer } from 'redux/actions/actions';
@@ -70,12 +71,7 @@ const Addsale: FC = (props) => {
       payload: { url }
     });
   };
-  // const handlePrice = (event:PayloadEvent)=> {
-  //   dispatch({
-  //     type: 'ADD_PRICE',
-  //     payload: { event }
-  //   });
-  // }
+
   console.log(data);
 
   return (
@@ -83,34 +79,34 @@ const Addsale: FC = (props) => {
       <h1>{t('add-sale-title-1')}</h1>
       <p>{t('add-sale-text-1')}</p>
       <S.AddSaleForm>
-        <S.AddSaleLabel htmlFor='title'>
+        <S.AddSaleLabel htmlFor="title">
           {t('add-sale-sub-title-1')}*
           <S.AddSaleInput
-            name='title'
-            type='text'
-            id='title'
+            name="title"
+            type="text"
+            id="title"
             value={data.title}
             onChange={(event) => handleChangeState(event)}
           />
         </S.AddSaleLabel>
-        <S.AddSaleLabel htmlFor='description'>
+        <S.AddSaleLabel htmlFor="description">
           {t('add-sale-sub-title-2')}*
           <S.AddSaleTextArea
-            name='description'
-            id='description'
+            name="description"
+            id="description"
             cols={30}
             rows={10}
-            width='490px'
+            width="490px"
             value={data.description}
             onChange={(event) => handleChangeState(event)}
           ></S.AddSaleTextArea>
         </S.AddSaleLabel>
-        <S.AddSaleLabel htmlFor='address'>
+        <S.AddSaleLabel htmlFor="address">
           {t('add-sale-sub-title-3')}*
           <S.AddSaleInput
-            type='text'
-            id='address'
-            name='address'
+            type="text"
+            id="address"
+            name="address"
             value={data.address}
             onChange={(event) => handleChangeState(event)}
           />
@@ -119,26 +115,26 @@ const Addsale: FC = (props) => {
           <S.AddSaleLabel>
             {t('add-sale-sub-title-5')}*
             <S.AddSaleLabel
-              htmlFor='images'
+              htmlFor="images"
               BoxImages
               url={data && data.images[4]}
             >
               <S.AddSaleCancelButton
                 zIndex={-1}
-                type='button'
-                width='53px'
-                height='53px'
+                type="button"
+                width="53px"
+                height="53px"
               >
                 <AtomIcon
-                  name='icons/addsale/addsale'
-                  width='59px'
-                  height='59px'
+                  name="icons/addsale/addsale"
+                  width="59px"
+                  height="59px"
                 />
               </S.AddSaleCancelButton>
               <S.AddSaleInput
-                display='none'
-                type='file'
-                id='images'
+                display="none"
+                type="file"
+                id="images"
                 onChange={handleImage}
               />
             </S.AddSaleLabel>
@@ -149,20 +145,20 @@ const Addsale: FC = (props) => {
               .map((image: any) => (
                 <S.AddSaleImagePreview key={image} url={image}>
                   <S.AddSaleCancelButton
-                    type='button'
+                    type="button"
                     onClick={() => handleDeleteImage(image)}
                     zIndex={1}
                   >
                     <AtomIcon
-                      name='icons/addsale/cancel'
-                      width='32px'
-                      height='32px'
+                      name="icons/addsale/cancel"
+                      width="32px"
+                      height="32px"
                     />
                   </S.AddSaleCancelButton>
                   <S.AddSaleInput
-                    display='none'
-                    type='file'
-                    id='images'
+                    display="none"
+                    type="file"
+                    id="images"
                     onChange={handleImage}
                   />
                 </S.AddSaleImagePreview>
@@ -175,13 +171,13 @@ const Addsale: FC = (props) => {
             <S.AddSaleLabel key={item.id} htmlFor={item.id}>
               {t(item.name)}
               <S.AddSaleInput
-                width='200px'
+                width="200px"
                 type={item.type}
                 id={item.id}
                 name={item.nameInput}
                 defaultValue={data.details[item.defaultValue]}
-                min='1'
-                max='5'
+                min="1"
+                max="5"
                 value={data.details[item.defaultValue]}
                 onChange={(event) =>
                   handleChangeDetailsState(event, 'ADD_DETAILS')
@@ -192,7 +188,7 @@ const Addsale: FC = (props) => {
         </S.AddSaleContainer>
         <S.AddSaleContainer>
           {t('add-sale-sub-title-7')}*
-          <S.AddSaleOfferContainer height='auto'>
+          <S.AddSaleOfferContainer height="auto">
             {addCuartoOffers.map((item) => (
               <S.AddSaleOfferLabel key={item.id} htmlFor={item.id}>
                 {t(item.name)}
@@ -226,16 +222,16 @@ const Addsale: FC = (props) => {
           <div>
             <p>{t('add-sale-sub-title-text-8-1')}</p>
             <S.AddSaleInput
-              type='text'
-              id='images'
+              type="text"
+              id="images"
               onChange={(event) => handleChangeDetailsState(event, 'ADD_PRICE')}
             />
           </div>
         </S.AddSaleContainer>
-        <S.AddSaleSubmitButton type='submit'>Send</S.AddSaleSubmitButton>
+        <S.AddSaleSubmitButton type="submit">Send</S.AddSaleSubmitButton>
       </S.AddSaleForm>
     </DashboardStyled>
   );
 };
 
-export default Addsale;
+export default withAuth(Addsale);

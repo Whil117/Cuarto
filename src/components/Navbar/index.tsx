@@ -1,12 +1,12 @@
 import AtomIcon from '@Components/Atoms/Svg';
+import SelectLanguage from '@Components/SelectLanguage';
 import LoweReplace from '@Helpers/LoweReplace';
 import * as S from '@Styles/components/Navbar';
-import useTranslation from 'next-translate/useTranslation';
 import { colors } from '@Styles/global/colors';
+import useTranslation from 'next-translate/useTranslation';
 import Link from 'next/link';
-import { ChangeEvent, FC } from 'react';
 import { useRouter } from 'next/router';
-import setLanguage from 'next-translate/setLanguage';
+import { FC } from 'react';
 
 const Navbar: FC = () => {
   const sections = ['Dashboard', 'Add sale', 'Favorite', 'List'];
@@ -17,32 +17,16 @@ const Navbar: FC = () => {
     'nav-bar-section-4'
   ];
   const { t } = useTranslation('common');
-  const { locale, pathname } = useRouter();
-
-  const handleChangeLanguage = async (e: ChangeEvent<HTMLSelectElement>) => {
-    await setLanguage(e.target.value);
-  };
+  const { pathname } = useRouter();
 
   return (
     <S.NavbarStyled>
       <S.NavbarArticles>
         <S.NavbarHeader>
-          <AtomIcon name='icons/navbar/cuarto' color={colors.blue} />
+          <AtomIcon name="icons/navbar/cuarto" color={colors.blue} />
           <h1>Cuarto</h1>
         </S.NavbarHeader>
-        <select
-          name=''
-          id=''
-          defaultValue={locale}
-          onChange={handleChangeLanguage}
-        >
-          <option value='en' defaultValue={locale}>
-            En
-          </option>
-          <option value='es' defaultValue={locale}>
-            Es
-          </option>
-        </select>
+        <SelectLanguage />
         <div>
           {sections.map((section, index) => (
             <Link
@@ -82,7 +66,7 @@ const Navbar: FC = () => {
         </div>
       </S.NavbarArticles>
       <S.NavbarArticles>
-        <Link key='Settings' href='/dashboard/settings' passHref>
+        <Link key="Settings" href="/dashboard/settings" passHref>
           <S.NavbarListItem
             checked={`/dashboard/${LoweReplace('settings')}` === pathname}
           >

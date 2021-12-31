@@ -1,4 +1,5 @@
-import { DashboardStyled } from '@Styles/pages/dashboard';
+import { DashboardStyled } from '@Styles/global';
+import withAuth from 'auth/withAuth';
 import { FC } from 'react';
 
 interface IProps {}
@@ -11,4 +12,4 @@ const List: FC<IProps> = (props) => {
   );
 };
 
-export default List;
+export default withAuth(List);

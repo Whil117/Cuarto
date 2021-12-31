@@ -127,7 +127,6 @@ export const AddSaleOfferContainer = styled.div<AddSaleOffer>`
 export const AddSaleOfferLabel = styled.label`
   display: flex;
   margin: 10px 0;
-  /* width: 71px; */
 `;
 export const AddSaleSubmitButton = styled.button`
   cursor: pointer;
@@ -148,6 +147,7 @@ export const AddSaleSubmitButton = styled.button`
   font-family: 'SegoeUI', sans-serif;
   font-size: 14px;
   font-weight: bold;
+  ${({ styles }: { styles: string }) => styles}
 `;
 
 export const AddSaleContainer = styled.div`

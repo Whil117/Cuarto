@@ -1,4 +1,12 @@
 {
+    "form-login-title-1": "Sign In",
+    "form-login-title-2": "Sign Up",
+    "form-login-title-3": "User",
+    "form-login-title-4": "Password",
+    "form-login-placeholder-1": "username",
+    "form-login-placeholder-2": " your password",
+    "form-login-text-1": "Don't have an account?",
+    "form-login-text-2": "Already have an account?",
     "nav-bar-section-1": "Dashboard",
     "nav-bar-section-2": "Add Sale",
     "nav-bar-section-3": "Favorites",
