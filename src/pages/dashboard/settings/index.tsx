@@ -8,7 +8,7 @@ import { FC } from 'react';
 
 interface IProps {}
 
-const Settings: FC<IProps> = (props) => {
+const Settings: FC = () => {
   const handleLogOut = () => {
     Cookies.remove('accessToken');
     Router.replace('/');
@@ -18,6 +18,7 @@ const Settings: FC<IProps> = (props) => {
     height: 40px;
     background: #ec2929;
   `;
+
   return (
     <DashboardStyled>
       <h1>Settings</h1>

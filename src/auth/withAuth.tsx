@@ -1,12 +1,12 @@
 import verifyToken from '@Services/verifyToken';
-import { PageProps } from '@Types/auth/types';
 import Cookies from 'js-cookie';
 import { NextPage } from 'next';
+import { AppProps } from 'next/app';
 import { useRouter } from 'next/router';
 import React, { useLayoutEffect, useState } from 'react';
 
 const withAuth = (WrappedComponent: NextPage) => {
-  return (props: PageProps | any) => {
+  return ({ pageProps }: AppProps) => {
     const Router = useRouter();
     const [verified, setVerified] = useState<boolean>(false);
 
@@ -15,9 +15,9 @@ const withAuth = (WrappedComponent: NextPage) => {
       if (!accessToken) {
         Router.replace('/');
       } else {
-        const data: Promise<boolean> | boolean | any = verifyToken(accessToken);
+        const data: Promise<boolean> = verifyToken(accessToken);
         if (data) {
-          setVerified(data);
+          data.then((res: boolean) => setVerified(res));
         } else {
           Cookies.remove('accessToken');
           Router.replace('/');
@@ -26,7 +26,7 @@ const withAuth = (WrappedComponent: NextPage) => {
     }, []);
 
     if (verified) {
-      return <WrappedComponent {...props} />;
+      return <WrappedComponent {...pageProps} />;
     } else {
       return null;
     }
