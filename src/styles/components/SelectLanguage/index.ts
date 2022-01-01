@@ -20,6 +20,6 @@ export const SelectStyled = styled.select`
   transition: all 0.3s ease-in-out;
   &:hover {
     transition: all 0.3s ease-in-out;
-    box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.25);
+    box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.5);
   }
 `;

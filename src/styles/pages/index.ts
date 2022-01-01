@@ -43,7 +43,8 @@ export const ContainerFormInput = styled.input`
     ::placeholder {
       opacity: 0;
     }
-    box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.45);
+    transition: all 0.3s ease-in-out;
+    box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.5);
   }
   ${({ error }: { error: boolean }) =>
     error &&
@@ -51,7 +52,8 @@ export const ContainerFormInput = styled.input`
       &::placeholder {
         color: red;
       }
-      box-shadow: 0px 0px 4px rgba(255, 0, 0, 0.75);
+      transition: all 0.3s ease-in-out;
+      box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.25);
     `})}
 `;
 export const ContainerFormButton = styled.button`
@@ -81,4 +83,7 @@ export const FormButtonShow = styled.button`
   outline: none;
   font-weight: 700;
   cursor: pointer;
+`;
+export const FormQuestion = styled.p`
+  opacity: 0.5;
 `;

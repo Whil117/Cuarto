@@ -1,82 +1,52 @@
-import {
-  ContainerFormButton,
-  ContainerFormInput,
-  Form,
-  TitleLabel
-} from '@Styles/pages';
+import * as S from '@Styles/pages';
+import { ComponentProps } from '@Types/components/Form/types';
 import useTranslation from 'next-translate/useTranslation';
-import { ChangeEvent, FC } from 'react';
-interface IProps {
-  handleChange: (e: ChangeEvent<HTMLInputElement>) => void;
-  handleSubmit: ({
-    event
-  }: {
-    event: {
-      preventDefault: () => void;
-    };
-  }) => void;
-  props: {
-    title: string;
-    buttontext: string;
-    question: string;
-  };
-  form: {
-    username: string;
-    password: string;
-    show: boolean;
-    error: boolean;
-  };
-}
+import { FC } from 'react';
 
-const FormLoggerUser: FC<IProps> = ({
-  props,
-  handleChange,
-  form,
-  handleSubmit
-}) => {
+const FormLoggerUser: FC<ComponentProps> = (props) => {
   const { t } = useTranslation('common');
 
   return (
     <>
-      <h1>{props.title}</h1>
-      <Form onSubmit={(event) => handleSubmit({ event })}>
+      <h1>{props.componentProps.title}</h1>
+      <S.Form onSubmit={props.handleSubmit}>
         <label htmlFor="user">
-          <TitleLabel>{t('form-login-title-3')}</TitleLabel>
-          <ContainerFormInput
+          <S.TitleLabel>{t('form-login-title-3')}</S.TitleLabel>
+          <S.ContainerFormInput
             type="text"
             id="user"
-            error={form.username === '' && form.error}
-            {...(form.password === '' &&
-              form.error && {
+            error={props.form.username === '' && props.form.error}
+            {...(props.form.password === '' &&
+              props.form.error && {
                 ...{ placeholder: t('form-login-placeholder-error-1') }
               })}
             name="username"
-            value={form.username}
-            onChange={handleChange}
+            value={props.form.username}
+            onChange={props.handleChange}
             autoComplete="off"
           />
         </label>
         <label htmlFor="pass">
-          <TitleLabel>{t('form-login-title-4')}</TitleLabel>
-          <ContainerFormInput
+          <S.TitleLabel>{t('form-login-title-4')}</S.TitleLabel>
+          <S.ContainerFormInput
             type="password"
             name="password"
             id="pass"
-            error={form.password === '' && form.error}
-            {...(form.password === '' &&
-              form.error && {
+            error={props.form.password === '' && props.form.error}
+            {...(props.form.password === '' &&
+              props.form.error && {
                 ...{ placeholder: t('form-login-placeholder-error-2') }
               })}
-            value={form.password}
+            value={props.form.password}
             autoComplete="off"
-            onChange={handleChange}
+            onChange={props.handleChange}
           />
         </label>
-        <ContainerFormButton type="submit">
-          {props.buttontext}
-        </ContainerFormButton>
-      </Form>
-      <p>{props.question}</p>
+        <S.ContainerFormButton type="submit">
+          {props.componentProps.buttontext}
+        </S.ContainerFormButton>
+      </S.Form>
+      <S.FormQuestion>{props.componentProps.question}</S.FormQuestion>
     </>
   );
 };

@@ -6,29 +6,23 @@ import AtomIcon from '@Components/Atoms/Svg';
 import reducer, { TypesReducers } from '@Helpers/pages/addsale/reducer';
 import { DashboardStyled } from '@Styles/global';
 import * as S from '@Styles/pages/dashboard/addsale';
+import { ChangeState, Image } from '@Types/pages/dashboard/addsale/types';
 import withAuth from 'auth/withAuth';
+import { NextPage } from 'next';
 import useTranslation from 'next-translate/useTranslation';
-import { FC, useReducer } from 'react';
-// import { DeleteOffer } from 'redux/actions/actions';
+import { useReducer } from 'react';
 
-type Image = {
-  target: {
-    files: FileList | null;
-  };
-};
-
-const Addsale: FC = (props) => {
+const Addsale: NextPage = () => {
   const [data, dispatch] = useReducer(reducer, initialState);
   const { t } = useTranslation('common');
 
-  const valid = (event: Image) => {
-    if (event.target.files) {
-      return event?.target?.files[0];
-    }
+  const extractFile = (event: Image) => {
+    const file = event.target.files && event.target.files[0];
+    return file;
   };
 
   const handleImage = (event: Image) => {
-    const image = valid(event);
+    const image = extractFile(event);
     const types = ['image/png', 'image/jpeg', 'image/jpg'];
     if (image && types.includes(image.type)) {
       const reader = new FileReader();
@@ -45,18 +39,14 @@ const Addsale: FC = (props) => {
       reader.readAsDataURL(image);
     }
   };
-  const handleChangeState = (event: {
-    target: { value: string; name: string };
-  }) => {
+  const handleChangeState = (event: ChangeState) => {
     dispatch({
       type: 'CHANGE',
       payload: { event }
     });
   };
-  const handleChangeDetailsState = (
-    event: {
-      target: { value: string; name: string };
-    },
+  const handleCDetailState = (
+    event: ChangeState,
     type: keyof typeof TypesReducers
   ) => {
     dispatch({
@@ -71,8 +61,6 @@ const Addsale: FC = (props) => {
       payload: { url }
     });
   };
-
-  console.log(data);
 
   return (
     <DashboardStyled>
@@ -142,7 +130,7 @@ const Addsale: FC = (props) => {
           <S.AddSaleImages>
             {data.images
               .filter((_, index) => index <= 3)
-              .map((image: any) => (
+              .map((image: string) => (
                 <S.AddSaleImagePreview key={image} url={image}>
                   <S.AddSaleCancelButton
                     type="button"
@@ -179,9 +167,7 @@ const Addsale: FC = (props) => {
                 min="1"
                 max="5"
                 value={data.details[item.defaultValue]}
-                onChange={(event) =>
-                  handleChangeDetailsState(event, 'ADD_DETAILS')
-                }
+                onChange={(event) => handleCDetailState(event, 'ADD_DETAILS')}
               />
             </S.AddSaleLabel>
           ))}
@@ -202,14 +188,12 @@ const Addsale: FC = (props) => {
                       (offer) => offer === item.value
                     );
                     if (isData) {
-                      console.log('dispatch');
-
                       dispatch({
                         type: 'DELETE_OFFER',
                         payload: item.value
                       });
                     } else {
-                      handleChangeDetailsState(event, 'ADD_OFFER');
+                      handleCDetailState(event, 'ADD_OFFER');
                     }
                   }}
                 />
@@ -224,7 +208,7 @@ const Addsale: FC = (props) => {
             <S.AddSaleInput
               type="text"
               id="images"
-              onChange={(event) => handleChangeDetailsState(event, 'ADD_PRICE')}
+              onChange={(event) => handleCDetailState(event, 'ADD_PRICE')}
             />
           </div>
         </S.AddSaleContainer>

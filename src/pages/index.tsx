@@ -1,3 +1,5 @@
+import baseUrl from '@Assets/cuartobackend';
+import initState from '@Assets/pages/initstate';
 import FormLoggerUser from '@Components/Form';
 import SelectLanguage from '@Components/SelectLanguage';
 import reducer from '@Helpers/pages/reducer';
@@ -7,14 +9,7 @@ import Cookies from 'js-cookie';
 import type { NextPage } from 'next';
 import useTranslation from 'next-translate/useTranslation';
 import { useRouter } from 'next/router';
-import { ChangeEvent, useReducer } from 'react';
-
-const initState = {
-  username: '',
-  password: '',
-  show: false,
-  error: false
-};
+import { ChangeEvent, SyntheticEvent, useReducer } from 'react';
 
 const Index: NextPage = () => {
   const [form, dispatch] = useReducer(reducer, initState);
@@ -25,30 +20,24 @@ const Index: NextPage = () => {
     dispatch({ type: 'ADD_FIELD', payload: { event } });
   };
 
-  const handleSubmit = async ({
-    event
-  }: {
-    event: { preventDefault: () => void };
-  }) => {
+  const handleSubmit = async (event: SyntheticEvent) => {
     event.preventDefault();
     if (form.username === '' || form.password === '') {
       dispatch({ type: 'ERROR_FORM' });
     } else {
-      const url = form.show
-        ? 'https://cuartobackend.herokuapp.com/signup'
-        : 'https://cuartobackend.herokuapp.com/signin';
+      const url = form.show ? `${baseUrl}/signup` : `${baseUrl}/signin`;
 
       await axios
         .post(url, {
           username: form.username,
           password: form.password
         })
-        .then((res) => {
-          if (res.data.token) {
-            router.replace('/dashboard');
-            Cookies.set('accessToken', res.data.token);
-          }
-        })
+        .then((res: { data: { token: string } }) =>
+          res.data.token
+            ? (router.replace('/dashboard'),
+              Cookies.set('accessToken', res.data.token))
+            : null
+        )
         .catch((err) => {
           console.log(err);
         });
@@ -66,7 +55,7 @@ const Index: NextPage = () => {
           <SelectLanguage />
           {form.show ? (
             <FormLoggerUser
-              props={{
+              componentProps={{
                 title: t('form-login-title-2'),
                 buttontext: t('form-login-title-2'),
                 question: t('form-login-title-2')
@@ -75,7 +64,7 @@ const Index: NextPage = () => {
             />
           ) : (
             <FormLoggerUser
-              props={{
+              componentProps={{
                 title: t('form-login-title-1'),
                 buttontext: t('form-login-title-1'),
                 question: t('form-login-text-1')
@@ -87,7 +76,10 @@ const Index: NextPage = () => {
             {form.show ? 'Sign In' : 'Sign Up'}
           </S.FormButtonShow>
         </S.ContainerForm>
-        <S.ContainerImage src="/images/login/cuartobglogin.png" alt="" />
+        <S.ContainerImage
+          src="/images/login/cuartobglogin.png"
+          alt="cuartologin"
+        />
       </S.Container>
     </S.MainContainer>
   );

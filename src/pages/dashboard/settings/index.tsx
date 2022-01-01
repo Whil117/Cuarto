@@ -6,8 +6,6 @@ import Cookies from 'js-cookie';
 import Router from 'next/router';
 import { FC } from 'react';
 
-interface IProps {}
-
 const Settings: FC = () => {
   const handleLogOut = () => {
     Cookies.remove('accessToken');
@@ -17,6 +15,9 @@ const Settings: FC = () => {
     width: 150px;
     height: 40px;
     background: #ec2929;
+    &:hover {
+      background: #d82727;
+    }
   `;
 
   return (
