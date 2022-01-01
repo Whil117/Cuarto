@@ -4,8 +4,33 @@ import { Global } from '@emotion/react';
 import { Normalize } from '@Styles/global/normalize';
 import { Provider } from 'react-redux';
 import { createStore } from 'redux';
+import HeadApp from '@Components/HeadApp/HeadApp';
+import { useEffect, useState } from 'react';
+import Characters from '@Helpers/Characters';
 
-const MyApp = ({ Component, pageProps }: AppProps) => {
+const MyApp = ({ Component, pageProps, router }: AppProps) => {
+  const [count, setcount] = useState(0);
+
+  useEffect(() => {
+    for (
+      let index = 1;
+      index < router.asPath.split(' ').join('').length;
+      index++
+    ) {
+      if (
+        router.asPath.split(' ').join('')[index] === '#' ||
+        router.asPath.split(' ').join('')[index] === '?'
+      ) {
+        return;
+      } else {
+        setcount(index);
+      }
+    }
+    return () => {
+      setcount(0);
+    };
+  }, [router.asPath]);
+
   const initialState = {
     fetching: false,
     fetched: false,
@@ -41,8 +66,16 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
   };
 
   const store = createStore(reducer);
+
   return (
     <Provider store={store}>
+      <HeadApp
+        title={`Cuarto ${
+          Characters(router.asPath.slice(11, count + 1))
+            ? `| ${Characters(router.asPath.slice(11, count + 1))} `
+            : '| Dashboard'
+        } `}
+      />
       <Global styles={Normalize} />
       <Layout>
         <Component {...pageProps} />

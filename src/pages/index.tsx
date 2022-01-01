@@ -1,25 +1,28 @@
 import FormLoggerUser from '@Components/Form';
 import SelectLanguage from '@Components/SelectLanguage';
+import reducer from '@Helpers/pages/reducer';
 import * as S from '@Styles/pages';
-import { User } from '@Types/pages/types';
 import axios from 'axios';
 import Cookies from 'js-cookie';
 import type { NextPage } from 'next';
 import useTranslation from 'next-translate/useTranslation';
 import { useRouter } from 'next/router';
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, useReducer } from 'react';
+
+const initState = {
+  username: '',
+  password: '',
+  show: false,
+  error: false
+};
 
 const Index: NextPage = () => {
-  const [user, setUser] = useState<User>({} as User);
-  const [show, setShow] = useState(false);
+  const [form, dispatch] = useReducer(reducer, initState);
   const { t } = useTranslation('common');
   const router = useRouter();
 
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setUser({
-      ...user,
-      [e.target.name]: e.target.value
-    });
+  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+    dispatch({ type: 'ADD_FIELD', payload: { event } });
   };
 
   const handleSubmit = async ({
@@ -28,29 +31,32 @@ const Index: NextPage = () => {
     event: { preventDefault: () => void };
   }) => {
     event.preventDefault();
-    const url = show
-      ? 'https://cuartobackend.herokuapp.com/signup'
-      : 'https://cuartobackend.herokuapp.com/signin';
+    if (form.username === '' || form.password === '') {
+      dispatch({ type: 'ERROR_FORM' });
+    } else {
+      const url = form.show
+        ? 'https://cuartobackend.herokuapp.com/signup'
+        : 'https://cuartobackend.herokuapp.com/signin';
 
-    await axios
-      .post(url, user)
-      .then((res) => {
-        if (res.data.token) {
-          router.replace('/dashboard');
-          Cookies.set('accessToken', res.data.token);
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+      await axios
+        .post(url, {
+          username: form.username,
+          password: form.password
+        })
+        .then((res) => {
+          if (res.data.token) {
+            router.replace('/dashboard');
+            Cookies.set('accessToken', res.data.token);
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
   };
 
   const handleShow = () => {
-    setShow(!show);
-    setUser({
-      username: '',
-      password: ''
-    } as User);
+    dispatch({ type: 'SHOW_FORM' });
   };
 
   return (
@@ -58,23 +64,27 @@ const Index: NextPage = () => {
       <S.Container>
         <S.ContainerForm>
           <SelectLanguage />
-          {show ? (
+          {form.show ? (
             <FormLoggerUser
-              title={t('form-login-title-2')}
-              buttontext={t('form-login-title-2')}
-              question={t('form-login-text-2')}
-              {...{ user, handleChange, handleSubmit, show }}
+              props={{
+                title: t('form-login-title-2'),
+                buttontext: t('form-login-title-2'),
+                question: t('form-login-title-2')
+              }}
+              {...{ form, handleChange, handleSubmit }}
             />
           ) : (
             <FormLoggerUser
-              title={t('form-login-title-1')}
-              buttontext={t('form-login-title-1')}
-              question={t('form-login-text-1')}
-              {...{ user, handleChange, handleSubmit, show }}
+              props={{
+                title: t('form-login-title-1'),
+                buttontext: t('form-login-title-1'),
+                question: t('form-login-text-1')
+              }}
+              {...{ form, handleChange, handleSubmit }}
             />
           )}
           <S.FormButtonShow type="button" onClick={handleShow}>
-            {show ? 'Sign In' : 'Sign Up'}
+            {form.show ? 'Sign In' : 'Sign Up'}
           </S.FormButtonShow>
         </S.ContainerForm>
         <S.ContainerImage src="/images/login/cuartobglogin.png" alt="" />

@@ -2,6 +2,7 @@ import styled from '@emotion/styled';
 import dynamic from 'next/dynamic';
 import { colors } from '@Styles/global/colors';
 import { css } from '@emotion/react';
+import { useMemo } from 'react';
 
 interface SvgDynamicProps {
   active: boolean | undefined;
@@ -44,8 +45,9 @@ const AtomIcon = ({
   color,
   height
 }: IconProps) => {
-  const DynamicIcon = dynamic(
-    () => import(`../../../../public/${address}.svg`)
+  const DynamicIcon = useMemo(
+    () => dynamic(() => import(`../../../../public/${address}.svg`)),
+    [address]
   );
 
   if (!DynamicIcon) return null;

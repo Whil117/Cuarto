@@ -3,6 +3,8 @@
     "form-login-title-2": "Sign Up",
     "form-login-title-3": "Username",
     "form-login-title-4": "Password",
+    "form-login-placeholder-error-1": "Enter your username",
+    "form-login-placeholder-error-2": "Enter your password",
     "form-login-placeholder-1": "username",
     "form-login-placeholder-2": " your password",
     "form-login-text-1": "Don't have an account?",

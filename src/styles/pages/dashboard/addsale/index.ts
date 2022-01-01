@@ -147,7 +147,7 @@ export const AddSaleSubmitButton = styled.button`
   font-family: 'SegoeUI', sans-serif;
   font-size: 14px;
   font-weight: bold;
-  ${({ styles }: { styles: string }) => styles}
+  ${({ styles }: { styles?: string }) => styles}
 `;
 
 export const AddSaleContainer = styled.div`

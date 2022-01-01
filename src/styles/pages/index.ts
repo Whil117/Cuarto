@@ -1,3 +1,4 @@
+import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
 export const MainContainer = styled.main`
@@ -23,20 +24,39 @@ export const Form = styled.form`
   justify-content: space-between;
   height: 300px;
 `;
+export const TitleLabel = styled.p`
+  opacity: 0.5;
+  font-weight: 500;
+`;
 export const ContainerFormInput = styled.input`
   width: 274px;
   height: 32.08px;
   background: #ffffff;
-  box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.25);
   border-radius: 5px;
   border: none;
   outline: none;
   padding: 5px;
   font-family: 'SegoeUI', sans-serif;
+  transition: 0.3s ease-in-out;
+  box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.25);
+  &:focus {
+    ::placeholder {
+      opacity: 0;
+    }
+    box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.45);
+  }
+  ${({ error }: { error: boolean }) =>
+    error &&
+    css`
+      &::placeholder {
+        color: red;
+      }
+      box-shadow: 0px 0px 4px rgba(255, 0, 0, 0.75);
+    `})}
 `;
 export const ContainerFormButton = styled.button`
   height: 35px;
-  background: #1e90ff;
+  background: ${({ bgcolor }: { bgcolor?: string }) => bgcolor || '#1e90ff'};
   box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.25);
   border-radius: 5px;
   border: none;
@@ -44,6 +64,14 @@ export const ContainerFormButton = styled.button`
   color: #ffffff;
   font-weight: 700;
   font-family: 'SegoeUI', sans-serif;
+  cursor: pointer;
+  transition: 0.3s ease-in-out;
+  &:hover {
+    transition: 0.3s ease-in-out;
+    background: transparent;
+    color: #1e90ff;
+    border: 1px solid #1e90ff;
+  }
 `;
 
 export const FormButtonShow = styled.button`
