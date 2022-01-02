@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 
 export const SelectStyled = styled.select`
-  font-size: 16px;
+  font-size: 14px;
   border: 1px solid #e6e6e6;
   outline: none;
   cursor: pointer;
@@ -18,6 +18,10 @@ export const SelectStyled = styled.select`
   flex-grow: 0;
   margin: 18px 0px;
   transition: all 0.3s ease-in-out;
+  option {
+    /* color: red; */
+    border: 1px solid #e6e6e6;
+  }
   &:hover {
     transition: all 0.3s ease-in-out;
     box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.5);

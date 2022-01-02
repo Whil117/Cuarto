@@ -1,7 +1,7 @@
 import { css } from '@emotion/react';
 import { DashboardStyled } from '@Styles/global';
 import { AddSaleSubmitButton } from '@Styles/pages/dashboard/addsale';
-import withAuth from 'auth/withAuth';
+import withAuth from '@Auth/withAuth';
 import Cookies from 'js-cookie';
 import Router from 'next/router';
 import { FC } from 'react';

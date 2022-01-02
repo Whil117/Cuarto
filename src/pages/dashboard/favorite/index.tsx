@@ -1,13 +1,16 @@
 import { DashboardStyled } from '@Styles/global';
-import withAuth from 'auth/withAuth';
+import withAuth from '@Auth/withAuth';
 import { FC } from 'react';
+import useTranslation from 'next-translate/useTranslation';
 
 interface IProps {}
 
 const Favorite: FC<IProps> = (props) => {
+  const { t } = useTranslation('common');
   return (
     <DashboardStyled>
-      <h1>Favorite</h1>
+      <h1>{t('favorite-title-1')}</h1>
+      <p>{t('favorite-tilte-text-1')}</p>
     </DashboardStyled>
   );
 };

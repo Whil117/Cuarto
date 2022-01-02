@@ -28,6 +28,7 @@ const Navbar: FC = () => {
         </S.NavbarHeader>
         <SelectLanguage />
         <div>
+          <S.NavbarSubtitle>MENU</S.NavbarSubtitle>
           {sections.map((section, index) => (
             <Link
               key={section}
@@ -66,6 +67,7 @@ const Navbar: FC = () => {
         </div>
       </S.NavbarArticles>
       <S.NavbarArticles>
+        <S.NavbarSubtitle>SETTINGS</S.NavbarSubtitle>
         <Link key="Settings" href="/dashboard/settings" passHref>
           <S.NavbarListItem
             checked={`/dashboard/${LoweReplace('settings')}` === pathname}

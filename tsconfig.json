@@ -5,6 +5,15 @@
       "@Assets/*": [
         "assets/*"
       ],
+      "@Auth/*": [
+        "auth/*"
+      ],
+      "@Store/*": [
+        "store/*"
+      ],
+      "@Firebase/*": [
+        "firebase/*"
+      ],
       "@Services/*": [
         "services/*"
       ],

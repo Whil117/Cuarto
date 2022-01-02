@@ -1,5 +1,5 @@
 import { DashboardStyled } from '@Styles/global';
-import withAuth from 'auth/withAuth';
+import withAuth from '@Auth/withAuth';
 import { NextPage } from 'next';
 
 const Dashboard: NextPage = (props) => {

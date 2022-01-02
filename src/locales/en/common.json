@@ -16,6 +16,7 @@
     "nav-bar-section-5": "Settings",
     "add-sale-title-1": "Add new Sale",
     "add-sale-text-1": "Complete the form below to add a new sale.",
+    "add-form-button-1": "Send",
     "add-sale-sub-title-1": "Title",
     "add-sale-sub-title-2": "Description",
     "add-sale-sub-title-3": "Address",
@@ -37,5 +38,7 @@
     "add-sale-sub-title-7-7": "Air conditioning",
     "add-sale-sub-title-7-8": "Laundry",
     "add-sale-sub-title-8": "Price",
-    "add-sale-sub-title-text-8-1": "How much is night?"
+    "add-sale-sub-title-text-8-1": "How much is night?",
+    "favorite-title-1": "Favorite Sales",
+    "favorite-tilte-text-1": "Look at your favorite sales"
 }

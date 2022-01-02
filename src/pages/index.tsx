@@ -2,7 +2,7 @@ import baseUrl from '@Assets/cuartobackend';
 import initState from '@Assets/pages/initstate';
 import FormLoggerUser from '@Components/Form';
 import SelectLanguage from '@Components/SelectLanguage';
-import reducer from '@Helpers/pages/reducer';
+import reducer from 'redux/reducers/pages/reducer';
 import * as S from '@Styles/pages';
 import axios from 'axios';
 import Cookies from 'js-cookie';
@@ -26,7 +26,6 @@ const Index: NextPage = () => {
       dispatch({ type: 'ERROR_FORM' });
     } else {
       const url = form.show ? `${baseUrl}/signup` : `${baseUrl}/signin`;
-
       await axios
         .post(url, {
           username: form.username,

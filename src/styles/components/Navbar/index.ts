@@ -7,7 +7,7 @@ export const NavbarStyled = styled.nav`
   align-items: flex-start;
   width: 205px;
   padding: 0px 20px;
-  background: #ffffff;
+  background: ${colors.gray_light};
   box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.25);
   border-radius: 0px 20px 20px 0px;
   position: fixed;
@@ -33,4 +33,11 @@ export const NavbarListItem = styled.a`
     checked ? colors.blue : colors.black};
   font-weight: 500;
   text-decoration: none;
+`;
+
+export const NavbarSubtitle = styled.span`
+  font-size: 14px;
+  font-weight: 700;
+  color: ${colors.black};
+  opacity: 0.5;
 `;

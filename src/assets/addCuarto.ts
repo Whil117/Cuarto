@@ -97,7 +97,7 @@ export const initialState = {
   title: '',
   description: '',
   address: '',
-  price: 0,
+  price: 10,
   images: [],
   details: {
     rooms: 0,

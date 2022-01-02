@@ -2,25 +2,41 @@ import addCuartoForm, {
   addCuartoOffers,
   initialState
 } from '@Assets/addCuarto';
+import withAuth from '@Auth/withAuth';
 import AtomIcon from '@Components/Atoms/Svg';
-import reducer, { TypesReducers } from '@Helpers/pages/addsale/reducer';
 import { DashboardStyled } from '@Styles/global';
 import * as S from '@Styles/pages/dashboard/addsale';
+import { State } from '@Types/helpers/pages/addsale/reducer';
 import { ChangeState, Image } from '@Types/pages/dashboard/addsale/types';
-import withAuth from 'auth/withAuth';
+import { getDownloadURL, getStorage, ref, uploadBytes } from 'firebase/storage';
 import { NextPage } from 'next';
 import useTranslation from 'next-translate/useTranslation';
 import { useReducer } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import reducer, { TypesReducers } from 'redux/reducers/pages/addsale/reducer';
 
 const Addsale: NextPage = () => {
-  const [data, dispatch] = useReducer(reducer, initialState);
+  // const [data, dispatch] = useReducer(reducer, initialState);
+  const data = useSelector((state: State) => state);
+  const dispatch = useDispatch();
   const { t } = useTranslation('common');
 
   const extractFile = (event: Image) => {
     const file = event.target.files && event.target.files[0];
     return file;
   };
-
+  const handleUploadImage = async (img: File) => {
+    const storage = getStorage();
+    const storageRef = ref(storage, `photos/${img?.name}_${Date.now()}`);
+    await uploadBytes(storageRef, img);
+    const url = await getDownloadURL(storageRef);
+    if (url) {
+      dispatch({
+        type: 'ADD_IMAGES',
+        payload: { images: url }
+      });
+    }
+  };
   const handleImage = (event: Image) => {
     const image = extractFile(event);
     const types = ['image/png', 'image/jpeg', 'image/jpg'];
@@ -29,10 +45,7 @@ const Addsale: NextPage = () => {
       reader.onloadend = (event) => {
         if (event.target) {
           if (data.images.length <= 4) {
-            dispatch({
-              type: 'ADD_IMAGES',
-              payload: { images: event.target.result }
-            });
+            handleUploadImage(image);
           }
         }
       };
@@ -61,6 +74,7 @@ const Addsale: NextPage = () => {
       payload: { url }
     });
   };
+  // console.log(data);
 
   return (
     <DashboardStyled>
@@ -100,7 +114,7 @@ const Addsale: NextPage = () => {
           />
         </S.AddSaleLabel>
         <S.AddSalesImagesContainer>
-          <S.AddSaleLabel>
+          <S.AddSaleLabel htmlFor="images">
             {t('add-sale-sub-title-5')}*
             <S.AddSaleLabel
               htmlFor="images"
@@ -163,10 +177,9 @@ const Addsale: NextPage = () => {
                 type={item.type}
                 id={item.id}
                 name={item.nameInput}
-                defaultValue={data.details[item.defaultValue]}
                 min="1"
                 max="5"
-                value={data.details[item.defaultValue]}
+                value={data.details[item.nameInput]}
                 onChange={(event) => handleCDetailState(event, 'ADD_DETAILS')}
               />
             </S.AddSaleLabel>
@@ -183,6 +196,15 @@ const Addsale: NextPage = () => {
                   id={item.id}
                   name={item.name}
                   value={item.value}
+                  checked={(() => {
+                    const isData = data.offer.find(
+                      (offer) => offer === item.value
+                    );
+                    if (isData) {
+                      return true;
+                    }
+                    return false;
+                  })()}
                   onChange={(event) => {
                     const isData = data.offer.find(
                       (offer) => offer === item.value
@@ -203,16 +225,21 @@ const Addsale: NextPage = () => {
         </S.AddSaleContainer>
         <S.AddSaleContainer>
           {t('add-sale-sub-title-8')}*
-          <div>
+          <S.AddSaleLabel>
             <p>{t('add-sale-sub-title-text-8-1')}</p>
             <S.AddSaleInput
-              type="text"
+              type="number"
               id="images"
+              min="10"
+              max="100"
+              value={data.price}
               onChange={(event) => handleCDetailState(event, 'ADD_PRICE')}
             />
-          </div>
+          </S.AddSaleLabel>
         </S.AddSaleContainer>
-        <S.AddSaleSubmitButton type="submit">Send</S.AddSaleSubmitButton>
+        <S.AddSaleSubmitButton type="submit">
+          {t('add-form-button-1')}
+        </S.AddSaleSubmitButton>
       </S.AddSaleForm>
     </DashboardStyled>
   );

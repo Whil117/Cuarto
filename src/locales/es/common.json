@@ -5,6 +5,7 @@
     "form-login-title-4": "Contraseña",
     "form-login-placeholder-error-1": "Ingrese su nombre de usuario",
     "form-login-placeholder-error-2": "Ingrese su contraseña",
+    "form-login-placeholder-error-3": "Ingrese su nombre",
     "form-login-placeholder-1": "Nombre de usuario",
     "form-login-placeholder-2": "Su contraseña",
     "form-login-text-1": "¿No tienes una cuenta?",
@@ -16,6 +17,7 @@
     "nav-bar-section-5": "Configuración",
     "add-sale-title-1": "Agregar nueva Venta",
     "add-sale-text-1": "Completa los datos de la venta",
+    "add-form-button-1": "Enviar",
     "add-sale-sub-title-1": "Titulo",
     "add-sale-sub-title-2": "Descripción",
     "add-sale-sub-title-3": "Dirección",
@@ -37,5 +39,7 @@
     "add-sale-sub-title-7-7": "Aire Acondicionado",
     "add-sale-sub-title-7-8": "Lavanderia",
     "add-sale-sub-title-8": "Precio",
-    "add-sale-sub-title-text-8-1": "¿Cuanto Cuesta la noche?"
+    "add-sale-sub-title-text-8-1": "¿Cuanto Cuesta la noche?",
+    "favorite-title-1": "Ventas Favoritas",
+    "favorite-tilte-text-1": "Mira tus ventas favoritas"
 }
