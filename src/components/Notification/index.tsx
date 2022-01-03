@@ -3,13 +3,11 @@ import { FC, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { State } from 'redux/reducers/components/Notification/reducer';
 
-interface IProps {}
-
 type Selector = {
   notification: State;
 };
 
-const Notification: FC<IProps> = () => {
+const Notification: FC = () => {
   const data = useSelector((select: Selector) => select.notification);
   const dispatch = useDispatch();
   const [count, setcout] = useState(0);

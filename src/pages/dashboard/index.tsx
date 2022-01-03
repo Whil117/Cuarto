@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { User } from '@Types/redux/reducers/pages/user/types';
 import useTranslation from 'next-translate/useTranslation';
 
-const Dashboard: NextPage = (props) => {
+const Dashboard: NextPage = () => {
   const data = useSelector((state: { user: User['user'] }) => state.user);
   const { t } = useTranslation('common');
   const dispatch = useDispatch();

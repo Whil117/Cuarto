@@ -1,7 +1,11 @@
 import { State, Event } from '@Types/helpers/pages/types';
+import { ChangeEvent } from 'react';
 
 const TypesReducer = {
-  ADD_FIELD: (state: State, payload: Event | undefined) => {
+  ADD_FIELD: (
+    state: State,
+    payload: { event: ChangeEvent<HTMLSelectElement> } | undefined
+  ) => {
     if (payload) {
       return {
         ...state,
@@ -25,7 +29,7 @@ const TypesReducer = {
 
 type IAction = {
   type: keyof typeof TypesReducer;
-  payload?: Event | undefined;
+  payload: { event: ChangeEvent<HTMLSelectElement> } | undefined;
 };
 
 const reducer = (state: State, action: IAction) => {

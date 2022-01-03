@@ -14,19 +14,18 @@ import { useDispatch } from 'react-redux';
 import reducer from 'redux/reducers/pages/reducer';
 
 const Index: NextPage = () => {
-  const [form, dispatch] = useReducer(reducer, initState);
+  const [form, formDispatch] = useReducer(reducer, initState);
   const { t } = useTranslation('common');
   const router = useRouter();
-  const userDispatch = useDispatch();
+  const dispatch = useDispatch();
 
-  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-    dispatch({ type: 'ADD_FIELD', payload: { event } });
-  };
+  const handleChange = (event: ChangeEvent<HTMLInputElement>) =>
+    formDispatch({ type: 'ADD_FIELD', payload: { event } });
 
   const handleSubmit = async (event: SyntheticEvent) => {
     event.preventDefault();
-    if (form.username === '' || form.password === '') {
-      dispatch({ type: 'ERROR_FORM' });
+    if (!form.username || !form.password) {
+      formDispatch({ type: 'ERROR_FORM' });
     } else {
       const url = form.show ? `${baseUrl}/signup` : `${baseUrl}/signin`;
       await axios
@@ -34,14 +33,14 @@ const Index: NextPage = () => {
           username: form.username,
           password: form.password
         })
-        .then((res: { data: User }) => {
-          if (res.data.token) {
-            Cookies.set('accessToken', res.data.token),
-              userDispatch({
+        .then(({ data }: { data: User }) => {
+          if (data.token) {
+            Cookies.set('accessToken', data.token),
+              dispatch({
                 type: 'SAVED_USER',
-                payload: res.data.user
+                payload: data.user
               });
-            userDispatch({
+            dispatch({
               type: 'SUCCESS',
               payload: {
                 message: {
@@ -51,15 +50,13 @@ const Index: NextPage = () => {
               }
             });
 
-            Cookies.set('user', JSON.stringify(res.data.user));
-            setTimeout(() => {
-              router.replace('/dashboard');
-            }, 1000);
+            Cookies.set('user', JSON.stringify(data.user));
+            setTimeout(() => router.replace('/dashboard'), 1000);
           }
         })
         .catch((err) => {
           if (err.response.data.message) {
-            userDispatch({
+            dispatch({
               type: 'ERROR',
               payload: {
                 message: err.response.data.message
@@ -68,9 +65,6 @@ const Index: NextPage = () => {
           }
         });
     }
-  };
-  const handleShow = () => {
-    dispatch({ type: 'SHOW_FORM' });
   };
 
   return (
@@ -97,12 +91,19 @@ const Index: NextPage = () => {
               {...{ form, handleChange, handleSubmit }}
             />
           )}
-          <S.FormButtonShow type="button" onClick={handleShow}>
+          <S.FormButtonShow
+            type="button"
+            onClick={() => formDispatch({ type: 'SHOW_FORM' })}
+          >
             {form.show ? 'Sign In' : 'Sign Up'}
           </S.FormButtonShow>
         </S.ContainerForm>
         <S.ContainerImage
-          src="/images/login/cuartobglogin.png"
+          src={
+            form.show
+              ? '/images/login/cuartobglogin.png'
+              : '/images/login/cuartobglogin2.png'
+          }
           alt="cuartologin"
         />
       </S.Container>
