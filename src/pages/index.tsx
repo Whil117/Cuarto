@@ -2,19 +2,22 @@ import baseUrl from '@Assets/cuartobackend';
 import initState from '@Assets/pages/initstate';
 import FormLoggerUser from '@Components/Form';
 import SelectLanguage from '@Components/SelectLanguage';
-import reducer from 'redux/reducers/pages/reducer';
 import * as S from '@Styles/pages';
+import { User } from '@Types/redux/reducers/pages/user/types';
 import axios from 'axios';
 import Cookies from 'js-cookie';
 import type { NextPage } from 'next';
 import useTranslation from 'next-translate/useTranslation';
 import { useRouter } from 'next/router';
 import { ChangeEvent, SyntheticEvent, useReducer } from 'react';
+import { useDispatch } from 'react-redux';
+import reducer from 'redux/reducers/pages/reducer';
 
 const Index: NextPage = () => {
   const [form, dispatch] = useReducer(reducer, initState);
   const { t } = useTranslation('common');
   const router = useRouter();
+  const userDispatch = useDispatch();
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     dispatch({ type: 'ADD_FIELD', payload: { event } });
@@ -31,18 +34,41 @@ const Index: NextPage = () => {
           username: form.username,
           password: form.password
         })
-        .then((res: { data: { token: string } }) =>
-          res.data.token
-            ? (router.replace('/dashboard'),
-              Cookies.set('accessToken', res.data.token))
-            : null
-        )
+        .then((res: { data: User }) => {
+          if (res.data.token) {
+            Cookies.set('accessToken', res.data.token),
+              userDispatch({
+                type: 'SAVED_USER',
+                payload: res.data.user
+              });
+            userDispatch({
+              type: 'SUCCESS',
+              payload: {
+                message: {
+                  title: 'Success',
+                  text: "You're logged in"
+                }
+              }
+            });
+
+            Cookies.set('user', JSON.stringify(res.data.user));
+            setTimeout(() => {
+              router.replace('/dashboard');
+            }, 1000);
+          }
+        })
         .catch((err) => {
-          console.log(err);
+          if (err.response.data.message) {
+            userDispatch({
+              type: 'ERROR',
+              payload: {
+                message: err.response.data.message
+              }
+            });
+          }
         });
     }
   };
-
   const handleShow = () => {
     dispatch({ type: 'SHOW_FORM' });
   };

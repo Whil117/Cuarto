@@ -1,8 +1,5 @@
+import { initialState } from '@Assets/addCuarto';
 import { PayloadEvent, State } from '@Types/helpers/pages/addsale/reducer';
-import addCuartoForm, {
-  addCuartoOffers,
-  initialState
-} from '@Assets/addCuarto';
 export const TypesReducers = {
   ADD_IMAGES: (state: State, payload: { images: string }) => ({
     ...state,
@@ -40,7 +37,8 @@ export const TypesReducers = {
   ADD_PRICE: (state: State, payload: PayloadEvent) => ({
     ...state,
     price: Number(payload.event.target.value)
-  })
+  }),
+  CLEAN: () => initialState
 };
 
 type IAction = {
@@ -48,13 +46,7 @@ type IAction = {
   payload: any;
 };
 
-const reducer = (state: State, action: IAction): State => {
-  const { type, payload } = action;
-  const TypeReducer = TypesReducers[type];
-  const Reducer = TypeReducer ? TypeReducer(state, payload) : state;
-  return Reducer;
-};
-export const reducer2 = (state = initialState, action: IAction): State => {
+export const reducer = (state = initialState, action: IAction): State => {
   const { type, payload } = action;
   const TypeReducer = TypesReducers[type];
   const Reducer = TypeReducer ? TypeReducer(state, payload) : state;

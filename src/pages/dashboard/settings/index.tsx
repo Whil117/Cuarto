@@ -5,10 +5,20 @@ import withAuth from '@Auth/withAuth';
 import Cookies from 'js-cookie';
 import Router from 'next/router';
 import { FC } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { User } from '@Types/redux/reducers/pages/user/types';
+
+type SelectorProps = {
+  user: User['user'];
+};
 
 const Settings: FC = () => {
+  const dispatch = useDispatch();
+
   const handleLogOut = () => {
-    Cookies.remove('accessToken');
+    dispatch({
+      type: 'LOG_OUT'
+    });
     Router.replace('/');
   };
   const styles = css`

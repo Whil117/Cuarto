@@ -1,4 +1,7 @@
 {
+    "notification-title-1": "Successfully",
+    "notification-title-2": "Error",
+    "dashboard-salute": "Welcome",
     "form-login-title-1": "Sign In",
     "form-login-title-2": "Sign Up",
     "form-login-title-3": "Username",

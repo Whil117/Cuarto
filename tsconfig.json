@@ -11,6 +11,12 @@
       "@Store/*": [
         "store/*"
       ],
+      "@Utils/*": [
+        "utils/*"
+      ],
+      "@Redux/*": [
+        "redux/*"
+      ],
       "@Firebase/*": [
         "firebase/*"
       ],

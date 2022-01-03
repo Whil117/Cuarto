@@ -1,7 +1,4 @@
-import addCuartoForm, {
-  addCuartoOffers,
-  initialState
-} from '@Assets/addCuarto';
+import addCuartoForm, { addCuartoOffers } from '@Assets/addCuarto';
 import withAuth from '@Auth/withAuth';
 import AtomIcon from '@Components/Atoms/Svg';
 import { DashboardStyled } from '@Styles/global';
@@ -11,14 +8,25 @@ import { ChangeState, Image } from '@Types/pages/dashboard/addsale/types';
 import { getDownloadURL, getStorage, ref, uploadBytes } from 'firebase/storage';
 import { NextPage } from 'next';
 import useTranslation from 'next-translate/useTranslation';
-import { useReducer } from 'react';
+import { SyntheticEvent } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import reducer, { TypesReducers } from 'redux/reducers/pages/addsale/reducer';
+import { TypesReducers } from 'redux/reducers/pages/addsale/reducer';
+import { User } from '@Types/redux/reducers/pages/user/types';
+import axios from 'axios';
+import baseUrl from '@Assets/cuartobackend';
+import Cookies from 'js-cookie';
+import { useFormik } from 'formik';
+import { useRouter } from 'next/router';
 
+type SelectorProps = {
+  addsale: State;
+  user: User['user'];
+};
 const Addsale: NextPage = () => {
-  // const [data, dispatch] = useReducer(reducer, initialState);
-  const data = useSelector((state: State) => state);
+  const data = useSelector((state: SelectorProps) => state.addsale);
+  const userData = useSelector((state: SelectorProps) => state.user);
   const dispatch = useDispatch();
+  const router = useRouter();
   const { t } = useTranslation('common');
 
   const extractFile = (event: Image) => {
@@ -74,13 +82,54 @@ const Addsale: NextPage = () => {
       payload: { url }
     });
   };
-  // console.log(data);
+
+  const handleSubmit = async (event: SyntheticEvent) => {
+    event.preventDefault();
+    if (data.title && data.description && data.address) {
+      await axios
+        .post(
+          `${baseUrl}/dashboard/addnewsale`,
+          {
+            ...data,
+            author: userData._id
+          },
+          {
+            headers: {
+              contentType: 'application/json',
+              token: Cookies.get('accessToken') || ''
+            }
+          }
+        )
+        .then((res) => {
+          if (res.data) {
+            dispatch({
+              type: 'SUCCESS',
+              payload: {
+                message: res.data.message
+              }
+            });
+            router.reload();
+            dispatch({
+              type: 'CLEAN'
+            });
+          }
+        })
+        .catch((err) => {
+          dispatch({
+            type: 'ERROR',
+            payload: {
+              message: err.response.data.message
+            }
+          });
+        });
+    }
+  };
 
   return (
     <DashboardStyled>
       <h1>{t('add-sale-title-1')}</h1>
       <p>{t('add-sale-text-1')}</p>
-      <S.AddSaleForm>
+      <S.AddSaleForm onSubmit={handleSubmit}>
         <S.AddSaleLabel htmlFor="title">
           {t('add-sale-sub-title-1')}*
           <S.AddSaleInput
@@ -174,11 +223,13 @@ const Addsale: NextPage = () => {
               {t(item.name)}
               <S.AddSaleInput
                 width="200px"
-                type={item.type}
+                // type={item.type}
+                type="text"
+                min="1"
+                max="10"
+                maxLength={2}
                 id={item.id}
                 name={item.nameInput}
-                min="1"
-                max="5"
                 value={data.details[item.nameInput]}
                 onChange={(event) => handleCDetailState(event, 'ADD_DETAILS')}
               />
@@ -228,10 +279,11 @@ const Addsale: NextPage = () => {
           <S.AddSaleLabel>
             <p>{t('add-sale-sub-title-text-8-1')}</p>
             <S.AddSaleInput
-              type="number"
+              type="text"
               id="images"
               min="10"
               max="100"
+              maxLength={3}
               value={data.price}
               onChange={(event) => handleCDetailState(event, 'ADD_PRICE')}
             />

@@ -30,7 +30,6 @@ type IAction = {
 
 const reducer = (state: State, action: IAction) => {
   const { type, payload } = action;
-
   const handler = TypesReducer[type];
   const newState = handler ? handler(state, payload) : state;
 
