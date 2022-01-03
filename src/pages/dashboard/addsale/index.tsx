@@ -1,22 +1,20 @@
 import addCuartoForm, { addCuartoOffers } from '@Assets/addCuarto';
+import baseUrl from '@Assets/cuartobackend';
 import withAuth from '@Auth/withAuth';
 import AtomIcon from '@Components/Atoms/Svg';
 import { DashboardStyled } from '@Styles/global';
 import * as S from '@Styles/pages/dashboard/addsale';
 import { State } from '@Types/helpers/pages/addsale/reducer';
 import { ChangeState, Image } from '@Types/pages/dashboard/addsale/types';
+import { User } from '@Types/redux/reducers/pages/user/types';
+import axios from 'axios';
 import { getDownloadURL, getStorage, ref, uploadBytes } from 'firebase/storage';
+import Cookies from 'js-cookie';
 import { NextPage } from 'next';
 import useTranslation from 'next-translate/useTranslation';
 import { SyntheticEvent } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { TypesReducers } from 'redux/reducers/pages/addsale/reducer';
-import { User } from '@Types/redux/reducers/pages/user/types';
-import axios from 'axios';
-import baseUrl from '@Assets/cuartobackend';
-import Cookies from 'js-cookie';
-import { useFormik } from 'formik';
-import { useRouter } from 'next/router';
 
 type SelectorProps = {
   addsale: State;
@@ -26,7 +24,6 @@ const Addsale: NextPage = () => {
   const data = useSelector((state: SelectorProps) => state.addsale);
   const userData = useSelector((state: SelectorProps) => state.user);
   const dispatch = useDispatch();
-  const router = useRouter();
   const { t } = useTranslation('common');
 
   const extractFile = (event: Image) => {
@@ -108,7 +105,6 @@ const Addsale: NextPage = () => {
                 message: res.data.message
               }
             });
-            router.reload();
             dispatch({
               type: 'CLEAN'
             });
@@ -124,6 +120,8 @@ const Addsale: NextPage = () => {
         });
     }
   };
+
+  console.log(data);
 
   return (
     <DashboardStyled>
@@ -223,7 +221,6 @@ const Addsale: NextPage = () => {
               {t(item.name)}
               <S.AddSaleInput
                 width="200px"
-                // type={item.type}
                 type="text"
                 min="1"
                 max="10"

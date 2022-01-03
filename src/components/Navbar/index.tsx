@@ -67,7 +67,9 @@ const Navbar: FC = () => {
         </div>
       </S.NavbarArticles>
       <S.NavbarArticles>
-        <S.NavbarSubtitle>SETTINGS</S.NavbarSubtitle>
+        <S.NavbarSubtitle>
+          {t('nav-bar-section-5').toUpperCase()}
+        </S.NavbarSubtitle>
         <Link key="Settings" href="/dashboard/settings" passHref>
           <S.NavbarListItem
             checked={`/dashboard/${LoweReplace('settings')}` === pathname}

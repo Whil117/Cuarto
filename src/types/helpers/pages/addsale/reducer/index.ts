@@ -9,7 +9,7 @@ export type State = {
         rooms: number;
         bathrooms: number;
         bedrooms: number;
-        kitchens: number;
+        guests: number;
       }
     | any;
   offer: string[];

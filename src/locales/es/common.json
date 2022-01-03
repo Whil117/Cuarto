@@ -2,6 +2,7 @@
     "notification-title-1": "Exitosamente",
     "notification-title-2": "Error",
     "dashboard-salute": "Bienvenido",
+    "dashboard-subtitle-1": "Bienvenido de vuelta!",
     "form-login-title-1": "Iniciar sesión",
     "form-login-title-2": "Registrarse",
     "form-login-title-3": "Nombre de usuario",
@@ -31,7 +32,7 @@
     "add-sale-sub-title-6-2": "¿Cuantos baños?",
     "add-sale-sub-title-6-3": "¿Cuantas Camas?",
     "add-sale-sub-title-6-5": "¿Tipo de cama?",
-    "add-sale-sub-title-6-4": "¿Cuantas cocinas?",
+    "add-sale-sub-title-6-4": "¿Cuantos huéspedes?",
     "add-sale-sub-title-7": "Ofrece",
     "add-sale-sub-title-7-1": "Cocina",
     "add-sale-sub-title-7-2": "Internet",
@@ -44,5 +45,15 @@
     "add-sale-sub-title-8": "Precio",
     "add-sale-sub-title-text-8-1": "¿Cuanto Cuesta la noche?",
     "favorite-title-1": "Ventas Favoritas",
-    "favorite-tilte-text-1": "Mira tus ventas favoritas"
+    "favorite-tilte-text-1": "Mira tus ventas favoritas",
+    "list-title-1": "Una lista de sus ventas",
+    "list-text-1": "Aquí están tus ventas",
+    "preview-title-1": "Vista previa",
+    "preview-title-2": "Todo el espacio residencial - Anfitrión:",
+    "preview-title-3": "Ofrece",
+    "preview-text-1": "Aquí puedes ver la vista previa de tu venta",
+    "preview-types-1": "Huéspedes",
+    "preview-types-2": "Baños",
+    "preview-types-3": "Camas",
+    "preview-types-4": "Dormitorios"
 }

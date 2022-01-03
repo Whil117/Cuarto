@@ -27,7 +27,7 @@ const addCuartoForm = [
     name: 'add-sale-sub-title-6-4',
     type: 'number',
     defaultValue: 0,
-    nameInput: 'kitchens',
+    nameInput: 'guests',
     id: 'add-sale-sub-title-6-4',
     label: 'add-sale-sub-title-6-4'
   }
@@ -103,7 +103,7 @@ export const initialState = {
     rooms: 0,
     bathrooms: 0,
     bedrooms: 0,
-    kitchens: 0
+    guests: 0
   },
   offer: []
 };

@@ -2,6 +2,7 @@
     "notification-title-1": "Successfully",
     "notification-title-2": "Error",
     "dashboard-salute": "Welcome",
+    "dashboard-subtitle-1": "Welcome back!",
     "form-login-title-1": "Sign In",
     "form-login-title-2": "Sign Up",
     "form-login-title-3": "Username",
@@ -30,7 +31,7 @@
     "add-sale-sub-title-6-2": "How many bathrooms?",
     "add-sale-sub-title-6-3": "How many bedrooms?",
     "add-sale-sub-title-6-5": "Type bed?",
-    "add-sale-sub-title-6-4": "How many kitchens?",
+    "add-sale-sub-title-6-4": "How many guests?",
     "add-sale-sub-title-7": "Offers",
     "add-sale-sub-title-7-1": "Kitchen",
     "add-sale-sub-title-7-2": "Wifi",
@@ -43,5 +44,15 @@
     "add-sale-sub-title-8": "Price",
     "add-sale-sub-title-text-8-1": "How much is night?",
     "favorite-title-1": "Favorite Sales",
-    "favorite-tilte-text-1": "Look at your favorite sales"
+    "favorite-tilte-text-1": "Look at your favorite sales",
+    "list-title-1": "A list of all your sales",
+    "list-text-1": "Here you can see all your sales",
+    "preview-title-1": "Preview",
+    "preview-title-2": "Entire residential space - Host:",
+    "preview-title-3": "Offers",
+    "preview-text-1": "Here you can see the sale you have just added",
+    "preview-types-1": "Guests",
+    "preview-types-2": "Bathrooms",
+    "preview-types-3": "Bedrooms",
+    "preview-types-4": "Rooms"
 }

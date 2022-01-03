@@ -13,6 +13,7 @@ const Dashboard: NextPage = () => {
   return (
     <DashboardStyled>
       <h1>{t('dashboard-salute') + ' ' + data.username}</h1>
+      <p>{t('dashboard-subtitle-1')}</p>
       <button
         onClick={() => {
           dispatch({
