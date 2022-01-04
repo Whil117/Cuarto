@@ -5,6 +5,8 @@ type User = {
   user: {
     _id: string;
     username: string;
+    email: string;
+    avatar: string;
     date: string;
   };
 };

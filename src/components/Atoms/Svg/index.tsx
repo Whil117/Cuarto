@@ -9,13 +9,18 @@ interface SvgDynamicProps {
   color?: string;
   width?: string;
   height?: string;
+  svgProp?: {
+    width: string;
+    height: string;
+  };
 }
 
 const SvgBox = styled.div<SvgDynamicProps>`
   display: flex;
   align-items: center;
+  justify-content: center;
 
-  margin: 0 10px 0 0;
+  /* margin: 0 10px 0 0; */
   svg {
     path {
       ${({ active }) =>

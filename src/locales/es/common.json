@@ -55,5 +55,12 @@
     "preview-types-1": "Huéspedes",
     "preview-types-2": "Baños",
     "preview-types-3": "Camas",
-    "preview-types-4": "Dormitorios"
+    "preview-types-4": "Dormitorios",
+    "settings-title-1": "Configuración",
+    "settings-title-2": ">Editar perfil",
+    "settings-title-3": ">Cerrar sesión",
+    "settings-subtitle-1": "Edita tu perfil a tu gusto",
+    "settings-form-title-1": "Nombre de usuario",
+    "settings-form-title-2": "Correo electrónico",
+    "settings-form-title-3": "Contraseña"
 }

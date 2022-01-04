@@ -29,7 +29,7 @@ const TypesReducer = {
 
 type IAction = {
   type: keyof typeof TypesReducer;
-  payload: { event: ChangeEvent<HTMLSelectElement> } | undefined;
+  payload?: any | undefined;
 };
 
 const reducer = (state: State, action: IAction) => {

@@ -46,11 +46,15 @@ const List: NextPage = () => {
       )
       .then((res) => {
         if (res.data.listSales) {
+          console.log(res.data.listSales);
+
           setList(res.data.listSales);
         }
+      })
+      .catch((err) => {
+        console.log(err);
       });
   }, []);
-  console.log('Esta vaina se esta disparando', list);
 
   return (
     <DashboardStyled>

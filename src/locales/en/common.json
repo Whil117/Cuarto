@@ -54,5 +54,12 @@
     "preview-types-1": "Guests",
     "preview-types-2": "Bathrooms",
     "preview-types-3": "Bedrooms",
-    "preview-types-4": "Rooms"
+    "preview-types-4": "Rooms",
+    "settings-title-1": "Settings",
+    "settings-title-2": ">Edit Profile",
+    "settings-title-3": ">Log out",
+    "settings-subtitle-1": "Edit your profile to your liking",
+    "settings-form-title-1": "Username",
+    "settings-form-title-2": "Email",
+    "settings-form-title-3": "Password"
 }

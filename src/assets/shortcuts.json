@@ -1,1 +1,17 @@
-[]
+[
+    {
+        "title": "Add new sale now!",
+        "type": "icons/addsale/addsale",
+        "url": "/dashboard/addsale"
+    },
+    {
+        "title": "View your favorites",
+        "type": "icons/navbar/favorite",
+        "url": "/dashboard/favorite"
+    },
+    {
+        "title": "User settings",
+        "type": "icons/navbar/settings",
+        "url": "/dashboard/settings"
+    }
+]
