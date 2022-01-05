@@ -2,6 +2,11 @@ import baseUrl from '@Assets/cuartobackend';
 import initState from '@Assets/pages/initstate';
 import FormLoggerUser from '@Components/Form';
 import SelectLanguage from '@Components/SelectLanguage';
+import {
+  ActionError,
+  ActionSavedUser,
+  ActionSuccess
+} from '@Redux/actions/actions';
 import * as S from '@Styles/pages';
 import { User } from '@Types/redux/reducers/pages/user/types';
 import axios from 'axios';
@@ -36,33 +41,27 @@ const Index: NextPage = () => {
         .then(({ data }: { data: User }) => {
           if (data.token) {
             Cookies.set('accessToken', data.token),
-              dispatch({
-                type: 'SAVED_USER',
-                payload: data.user
-              });
-            dispatch({
-              type: 'SUCCESS',
-              payload: {
-                message: {
-                  title: 'Success',
-                  text: "You're logged in"
-                }
-              }
-            });
+              dispatch(ActionSavedUser(data.user));
+
+            dispatch(
+              ActionSuccess({
+                title: 'Success',
+                text: "You're logged in"
+              })
+            );
 
             Cookies.set('user', JSON.stringify(data.user));
             setTimeout(() => router.replace('/dashboard'), 1000);
           }
         })
         .catch((err) => {
-          if (err.response.data.message) {
-            dispatch({
-              type: 'ERROR',
-              payload: {
-                message: err.response.data.message
-              }
-            });
-          }
+          err.response.data.message &&
+            dispatch(
+              ActionError({
+                title: err.response.data.message.title,
+                text: err.response.data.message.text
+              })
+            );
         });
     }
   };

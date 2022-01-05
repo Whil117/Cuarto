@@ -6,7 +6,7 @@ import {
   ListContainer,
   ListItem
 } from '@Styles/pages/dashboard/list';
-import { User } from '@Types/redux/reducers/pages/user/types';
+import { SelectorProps } from '@Types/pages/dashboard/addsale/types';
 import axios from 'axios';
 import Cookies from 'js-cookie';
 import { NextPage } from 'next';
@@ -15,9 +15,6 @@ import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 
-type SelectorProps = {
-  user: User['user'];
-};
 type StateList = {
   id: string;
   title: string;

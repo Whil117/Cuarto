@@ -142,11 +142,12 @@ export const AddSaleSubmitButton = styled.button`
   border-radius: 10px;
   border: none;
   outline: none;
-  margin: 20px 0;
+  margin: 10px 0;
   color: white;
   font-family: 'SegoeUI', sans-serif;
   font-size: 14px;
   font-weight: bold;
+  transition: all 0.3s ease-in-out;
   ${({ styles }: { styles?: string }) => styles}
 `;
 

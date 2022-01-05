@@ -1,4 +1,4 @@
-import { State, Event } from '@Types/helpers/pages/types';
+import { State } from '@Types/helpers/pages/types';
 import { ChangeEvent } from 'react';
 
 const TypesReducer = {

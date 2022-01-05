@@ -21,7 +21,10 @@ export const SettingsForm = styled.form`
   display: flex;
   flex-direction: column;
   margin: 0 0 0 25px;
-  justify-content: space-between;
+  /* justify-content: space-between; */
+`;
+export const SettingsFormLabel = styled.label`
+  margin: 10px 0;
 `;
 export const SettingsInput = styled.input`
   display: flex;

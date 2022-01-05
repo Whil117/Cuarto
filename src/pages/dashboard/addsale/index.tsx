@@ -2,11 +2,22 @@ import addCuartoForm, { addCuartoOffers } from '@Assets/addCuarto';
 import baseUrl from '@Assets/cuartobackend';
 import withAuth from '@Auth/withAuth';
 import AtomIcon from '@Components/Atoms/Svg';
+import {
+  ActionAddImages,
+  ActionChangeState,
+  ActionCleanForm,
+  ActionDeleteImages,
+  ActionDeleteOffer,
+  ActionError,
+  ActionSuccess
+} from '@Redux/actions/actions';
 import { DashboardStyled } from '@Styles/global';
 import * as S from '@Styles/pages/dashboard/addsale';
-import { State } from '@Types/helpers/pages/addsale/reducer';
-import { ChangeState, Image } from '@Types/pages/dashboard/addsale/types';
-import { User } from '@Types/redux/reducers/pages/user/types';
+import {
+  ChangeState,
+  Image,
+  SelectorProps
+} from '@Types/pages/dashboard/addsale/types';
 import axios from 'axios';
 import { getDownloadURL, getStorage, ref, uploadBytes } from 'firebase/storage';
 import Cookies from 'js-cookie';
@@ -16,10 +27,6 @@ import { SyntheticEvent } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { TypesReducers } from 'redux/reducers/pages/addsale/reducer';
 
-type SelectorProps = {
-  addsale: State;
-  user: User['user'];
-};
 const Addsale: NextPage = () => {
   const data = useSelector((state: SelectorProps) => state.addsale);
   const userData = useSelector((state: SelectorProps) => state.user);
@@ -36,10 +43,7 @@ const Addsale: NextPage = () => {
     await uploadBytes(storageRef, img);
     const url = await getDownloadURL(storageRef);
     if (url) {
-      dispatch({
-        type: 'ADD_IMAGES',
-        payload: { images: url }
-      });
+      dispatch(ActionAddImages(url));
     }
   };
   const handleImage = (event: Image) => {
@@ -57,12 +61,8 @@ const Addsale: NextPage = () => {
       reader.readAsDataURL(image);
     }
   };
-  const handleChangeState = (event: ChangeState) => {
-    dispatch({
-      type: 'CHANGE',
-      payload: { event }
-    });
-  };
+  const handleChangeState = (event: ChangeState) =>
+    dispatch(ActionChangeState(event));
   const handleCDetailState = (
     event: ChangeState,
     type: keyof typeof TypesReducers
@@ -73,12 +73,7 @@ const Addsale: NextPage = () => {
     });
   };
 
-  const handleDeleteImage = (url: string) => {
-    dispatch({
-      type: 'DELETE_IMAGES',
-      payload: { url }
-    });
-  };
+  const handleDeleteImage = (url: string) => dispatch(ActionDeleteImages(url));
 
   const handleSubmit = async (event: SyntheticEvent) => {
     event.preventDefault();
@@ -99,29 +94,25 @@ const Addsale: NextPage = () => {
         )
         .then((res) => {
           if (res.data) {
-            dispatch({
-              type: 'SUCCESS',
-              payload: {
-                message: res.data.message
-              }
-            });
-            dispatch({
-              type: 'CLEAN'
-            });
+            dispatch(
+              ActionSuccess({
+                title: res.data.message.title,
+                text: res.data.message.text
+              })
+            );
+            dispatch(ActionCleanForm());
           }
         })
         .catch((err) => {
-          dispatch({
-            type: 'ERROR',
-            payload: {
-              message: err.response.data.message
-            }
-          });
+          dispatch(
+            ActionError({
+              title: err.response.data.message.title,
+              text: err.response.data.message.text
+            })
+          );
         });
     }
   };
-
-  console.log(data);
 
   return (
     <DashboardStyled>
@@ -248,23 +239,15 @@ const Addsale: NextPage = () => {
                     const isData = data.offer.find(
                       (offer) => offer === item.value
                     );
-                    if (isData) {
-                      return true;
-                    }
-                    return false;
+                    return isData ? true : false;
                   })()}
                   onChange={(event) => {
                     const isData = data.offer.find(
                       (offer) => offer === item.value
                     );
-                    if (isData) {
-                      dispatch({
-                        type: 'DELETE_OFFER',
-                        payload: item.value
-                      });
-                    } else {
-                      handleCDetailState(event, 'ADD_OFFER');
-                    }
+                    isData
+                      ? dispatch(ActionDeleteOffer(item.value))
+                      : handleCDetailState(event, 'ADD_OFFER');
                   }}
                 />
               </S.AddSaleOfferLabel>

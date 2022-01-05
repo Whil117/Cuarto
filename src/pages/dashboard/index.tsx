@@ -1,19 +1,17 @@
-import { DashboardStyled } from '@Styles/global';
-import withAuth from '@Auth/withAuth';
-import { NextPage } from 'next';
-import { useDispatch, useSelector } from 'react-redux';
-import { User } from '@Types/redux/reducers/pages/user/types';
-import useTranslation from 'next-translate/useTranslation';
 import shortcuts from '@Assets/shortcuts.json';
+import withAuth from '@Auth/withAuth';
 import AtomIcon from '@Components/Atoms/Svg';
+import { DashboardStyled } from '@Styles/global';
 import { DashboardCard, DashboardCards } from '@Styles/pages/dashboard';
+import { User } from '@Types/redux/reducers/pages/user/types';
+import { NextPage } from 'next';
+import useTranslation from 'next-translate/useTranslation';
 import Link from 'next/link';
+import { useSelector } from 'react-redux';
 
 const Dashboard: NextPage = () => {
   const data = useSelector((state: { user: User['user'] }) => state.user);
   const { t } = useTranslation('common');
-  const dispatch = useDispatch();
-
   return (
     <DashboardStyled>
       <h1>{t('dashboard-salute') + ' ' + data.username}</h1>

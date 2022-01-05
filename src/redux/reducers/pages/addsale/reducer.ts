@@ -38,7 +38,7 @@ export const TypesReducers = {
     ...state,
     price: Number(payload.event.target.value)
   }),
-  CLEAN: () => initialState
+  CLEAN_FORM: () => initialState
 };
 
 type IAction = {

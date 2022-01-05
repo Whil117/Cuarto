@@ -9,10 +9,15 @@ import {
   EditProfileStyle,
   SettingsAside,
   SettingsForm,
+  SettingsFormLabel,
   SettingsInput,
   SettingsInputLabel
 } from '@Styles/pages/dashboard/settings';
-import { ChangeState, Image } from '@Types/pages/dashboard/addsale/types';
+import {
+  ChangeState,
+  Image,
+  SelectorProps
+} from '@Types/pages/dashboard/addsale/types';
 import { User } from '@Types/redux/reducers/pages/user/types';
 import axios from 'axios';
 import { getDownloadURL, getStorage, ref, uploadBytes } from 'firebase/storage';
@@ -21,10 +26,6 @@ import useTranslation from 'next-translate/useTranslation';
 import Router from 'next/router';
 import { FC, SyntheticEvent, useReducer } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-
-type SelectorProps = {
-  user: User['user'];
-};
 
 type Action = {
   type: string;
@@ -179,25 +180,35 @@ const Settings: FC = () => {
             </SettingsInputLabel>
           </SettingsAside>
           <SettingsForm onSubmit={handleSUbmit}>
-            <label htmlFor="email">{t('settings-form-title-1')}</label>
-            <SettingsInput
-              type="text"
-              id="text"
-              name="username"
-              value={form.username}
-              onChange={handleChange}
-            />
-            <label htmlFor="password">{t('settings-form-title-2')}</label>
-            <SettingsInput
-              type="email"
-              id="email"
-              name="email"
-              value={form.email}
-              onChange={handleChange}
-            />
+            <SettingsFormLabel htmlFor="email">
+              {t('settings-form-title-1')}
+              <SettingsInput
+                type="text"
+                id="text"
+                name="username"
+                autoComplete="off"
+                value={form.username}
+                onChange={handleChange}
+              />
+            </SettingsFormLabel>
+
+            <SettingsFormLabel htmlFor="password">
+              {t('settings-form-title-2')}
+
+              <SettingsInput
+                type="email"
+                id="email"
+                name="email"
+                autoComplete="off"
+                value={form.email}
+                onChange={handleChange}
+              />
+            </SettingsFormLabel>
 
             {JSON.stringify(form) !== JSON.stringify(data) && (
-              <button type="submit">Click</button>
+              <AddSaleSubmitButton type="submit">
+                {t('add-form-button-1')}
+              </AddSaleSubmitButton>
             )}
           </SettingsForm>
         </EditProfileStyle>
