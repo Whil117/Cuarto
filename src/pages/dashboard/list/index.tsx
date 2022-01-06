@@ -1,11 +1,16 @@
 import baseUrl from '@Assets/cuartobackend';
 import withAuth from '@Auth/withAuth';
+import AtomIcon from '@Components/Atoms/Svg';
+import { ActionError, ActionSuccess } from '@Redux/actions/actions';
 import { DashboardStyled } from '@Styles/global';
 import {
   ListAnchor,
+  Listbody,
   ListContainer,
-  ListItem
+  ListItem,
+  ListOptions
 } from '@Styles/pages/dashboard/list';
+import { ViewFavoriteButton } from '@Styles/pages/dashboard/view';
 import { SelectorProps } from '@Types/pages/dashboard/addsale/types';
 import axios from 'axios';
 import Cookies from 'js-cookie';
@@ -13,7 +18,7 @@ import { NextPage } from 'next';
 import useTranslation from 'next-translate/useTranslation';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 type StateList = {
   id: string;
@@ -22,17 +27,33 @@ type StateList = {
 };
 
 const List: NextPage = () => {
-  const data = useSelector((state: SelectorProps) => state.user);
   const [list, setList] = useState<StateList[]>([]);
   const { t } = useTranslation('common');
-  const url = `${baseUrl}/dashboard/listsales`;
-
+  const dispatch = useDispatch();
   useEffect(() => {
+    const url = `${baseUrl}/dashboard/listsales`;
     axios
+      .get(url, {
+        headers: {
+          'Content-Type': 'application/json',
+          token: Cookies.get('accessToken') || ''
+        }
+      })
+      .then((res) => {
+        if (res.data.listSales) setList(res.data.listSales);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
+
+  const handleDeleteItem = async (id: string) => {
+    setList(list.filter((item) => item.id !== id));
+    await axios
       .post(
-        url,
+        `${baseUrl}/dashboard/listsales/item`,
         {
-          id: data._id
+          id
         },
         {
           headers: {
@@ -42,16 +63,22 @@ const List: NextPage = () => {
         }
       )
       .then((res) => {
-        if (res.data.listSales) {
-          console.log(res.data.listSales);
-
-          setList(res.data.listSales);
-        }
+        dispatch(
+          ActionSuccess({
+            title: res.data.message.title,
+            text: res.data.message.text
+          })
+        );
       })
       .catch((err) => {
-        console.log(err);
+        dispatch(
+          ActionError({
+            title: err.response.data.message.title,
+            text: err.response.data.message.text
+          })
+        );
       });
-  }, []);
+  };
 
   return (
     <DashboardStyled>
@@ -59,27 +86,29 @@ const List: NextPage = () => {
       <p>{t('list-text-1')}</p>
       <ListContainer>
         {list?.map((item) => (
-          <Link
-            href={{
-              pathname: '/dashboard/view/[pid]',
-              query: {
-                pid: item.id
-              }
-            }}
-            passHref
-          >
-            <ListAnchor>
-              <ListItem key={item.id}>
-                <div>
+          <ListItem>
+            <ListAnchor key={item.id}>
+              <Link
+                href={{
+                  pathname: '/dashboard/view/[pid]',
+                  query: {
+                    pid: item.id
+                  }
+                }}
+                passHref
+              >
+                <Listbody>
                   <h3>{item.title}</h3>
                   <p>{item.address}</p>
-                </div>
-                {/* <div>
-                  <button>CLick</button>
-                </div> */}
-              </ListItem>
+                </Listbody>
+              </Link>
             </ListAnchor>
-          </Link>
+            <ListOptions>
+              <ViewFavoriteButton onClick={() => handleDeleteItem(item.id)}>
+                <AtomIcon name="icons/list/trash" />
+              </ViewFavoriteButton>
+            </ListOptions>
+          </ListItem>
         ))}
       </ListContainer>
     </DashboardStyled>

@@ -39,3 +39,18 @@ export const ViewOfferContainer = styled.div`
 export const ViewOffer = styled.div`
   display: flex;
 `;
+
+export const ViewHeader = styled.header`
+  display: flex;
+  justify-content: space-between;
+`;
+export const ViewBox = styled.main`
+  width: 791px;
+`;
+
+export const ViewFavoriteButton = styled.button`
+  background: none;
+  border: none;
+  cursor: pointer;
+  outline: none;
+`;

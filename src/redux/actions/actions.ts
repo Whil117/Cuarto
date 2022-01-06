@@ -45,3 +45,11 @@ export const ActionAddImages = (url: string) => ({
   type: 'ADD_IMAGES',
   payload: { images: url }
 });
+
+export const ActionLogout = () => ({
+  type: 'LOG_OUT'
+});
+export const ActionAvatar = (url: string) => ({
+  type: 'AVATAR',
+  payload: url
+});

@@ -3,68 +3,33 @@ import withAuth from '@Auth/withAuth';
 import AtomImg from '@Components/Atoms/Image';
 import AtomIcon from '@Components/Atoms/Svg/index';
 import { css } from '@emotion/react';
+import { ActionAvatar, ActionLogout } from '@Redux/actions/actions';
+import reducer from '@Redux/reducers/pages/settings/reducer';
 import { DashboardStyled } from '@Styles/global';
 import { AddSaleSubmitButton } from '@Styles/pages/dashboard/addsale';
-import {
-  EditProfileStyle,
-  SettingsAside,
-  SettingsForm,
-  SettingsFormLabel,
-  SettingsInput,
-  SettingsInputLabel
-} from '@Styles/pages/dashboard/settings';
+import * as S from '@Styles/pages/dashboard/settings';
 import {
   ChangeState,
   Image,
   SelectorProps
 } from '@Types/pages/dashboard/addsale/types';
-import { User } from '@Types/redux/reducers/pages/user/types';
 import axios from 'axios';
 import { getDownloadURL, getStorage, ref, uploadBytes } from 'firebase/storage';
 import Cookies from 'js-cookie';
+import { NextPage } from 'next';
 import useTranslation from 'next-translate/useTranslation';
 import Router from 'next/router';
-import { FC, SyntheticEvent, useReducer } from 'react';
+import { SyntheticEvent, useReducer } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-type Action = {
-  type: string;
-  payload?: any;
-};
-
-const reducer = (state: User['user'], action: Action) => {
-  switch (action.type) {
-    case 'ADD_FIELD':
-      return {
-        ...state,
-        [action.payload.event.target.name]: action.payload.event.target.value
-      };
-    case 'ADD_IMAGE':
-      return {
-        ...state,
-        avatar: action.payload
-      };
-    case 'ERROR_FORM':
-      return {
-        ...state,
-        error: true
-      };
-    default:
-      return state;
-  }
-};
-
-const Settings: FC = () => {
+const Settings: NextPage = () => {
   const data = useSelector((state: SelectorProps) => state.user);
   const [form, formDispatch] = useReducer(reducer, data);
-
   const dispatch = useDispatch();
   const { t } = useTranslation('common');
 
   const handleLogOut = () => {
-    dispatch({
-      type: 'LOG_OUT'
-    });
+    dispatch(ActionLogout());
     Router.replace('/');
   };
 
@@ -77,12 +42,7 @@ const Settings: FC = () => {
     const storageRef = ref(storage, `profile/${img?.name}_${Date.now()}`);
     await uploadBytes(storageRef, img);
     const url = await getDownloadURL(storageRef);
-    if (url) {
-      formDispatch({
-        type: 'ADD_IMAGE',
-        payload: url
-      });
-    }
+    url && formDispatch(ActionAvatar(url));
   };
   const handleImage = (event: Image) => {
     const image = extractFile(event);
@@ -163,26 +123,26 @@ const Settings: FC = () => {
       <article>
         <h2>{t('settings-title-2')}</h2>
         <p>{t('settings-subtitle-1')}</p>
-        <EditProfileStyle>
-          <SettingsAside image={form.avatar}>
+        <S.EditProfileStyle>
+          <S.SettingsAside image={form.avatar}>
             <div>
               {!form.avatar && <AtomImg styles={{ width: 50, height: 50 }} />}
             </div>
-            <SettingsInputLabel htmlFor="profile">
+            <S.SettingsInputLabel htmlFor="profile">
               <AtomIcon name="icons/navbar/addsmall" />
-              <SettingsInput
+              <S.SettingsInput
                 type="file"
                 name="image"
                 id="profile"
                 display="true"
                 onChange={handleImage}
               />
-            </SettingsInputLabel>
-          </SettingsAside>
-          <SettingsForm onSubmit={handleSUbmit}>
-            <SettingsFormLabel htmlFor="email">
+            </S.SettingsInputLabel>
+          </S.SettingsAside>
+          <S.SettingsForm onSubmit={handleSUbmit}>
+            <S.SettingsFormLabel htmlFor="email">
               {t('settings-form-title-1')}
-              <SettingsInput
+              <S.SettingsInput
                 type="text"
                 id="text"
                 name="username"
@@ -190,12 +150,12 @@ const Settings: FC = () => {
                 value={form.username}
                 onChange={handleChange}
               />
-            </SettingsFormLabel>
+            </S.SettingsFormLabel>
 
-            <SettingsFormLabel htmlFor="password">
+            <S.SettingsFormLabel htmlFor="password">
               {t('settings-form-title-2')}
 
-              <SettingsInput
+              <S.SettingsInput
                 type="email"
                 id="email"
                 name="email"
@@ -203,15 +163,15 @@ const Settings: FC = () => {
                 value={form.email}
                 onChange={handleChange}
               />
-            </SettingsFormLabel>
+            </S.SettingsFormLabel>
 
             {JSON.stringify(form) !== JSON.stringify(data) && (
               <AddSaleSubmitButton type="submit">
                 {t('add-form-button-1')}
               </AddSaleSubmitButton>
             )}
-          </SettingsForm>
-        </EditProfileStyle>
+          </S.SettingsForm>
+        </S.EditProfileStyle>
       </article>
       <article>
         <h2>{t('settings-title-3')}</h2>

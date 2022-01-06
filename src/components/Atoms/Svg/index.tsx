@@ -20,7 +20,6 @@ const SvgBox = styled.div<SvgDynamicProps>`
   align-items: center;
   justify-content: center;
 
-  /* margin: 0 10px 0 0; */
   svg {
     path {
       ${({ active }) =>

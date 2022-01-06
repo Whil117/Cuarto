@@ -1,12 +1,8 @@
 import baseUrl from '@Assets/cuartobackend';
+import AtomIcon from '@Components/Atoms/Svg';
+import LoweReplace from '@Helpers/LoweReplace';
+import { ActionError, ActionSuccess } from '@Redux/actions/actions';
 import { DashboardStyled } from '@Styles/global';
-import axios from 'axios';
-import Cookies from 'js-cookie';
-import { NextPage } from 'next';
-import useTranslation from 'next-translate/useTranslation';
-import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
-
 import {
   ViewArticleOne,
   ViewArticles,
@@ -15,10 +11,18 @@ import {
   ViewImagesContainer,
   ViewImageSide,
   ViewOffer,
-  ViewOfferContainer
+  ViewOfferContainer,
+  ViewHeader,
+  ViewBox,
+  ViewFavoriteButton
 } from '@Styles/pages/dashboard/view';
-import AtomIcon from '@Components/Atoms/Svg';
-import LoweReplace from '@Helpers/LoweReplace';
+import axios from 'axios';
+import Cookies from 'js-cookie';
+import { NextPage } from 'next';
+import useTranslation from 'next-translate/useTranslation';
+import { useRouter } from 'next/router';
+import { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
 
 type Data = {
   author: {
@@ -27,6 +31,7 @@ type Data = {
     _id: string;
   };
   sale: {
+    favorite: boolean;
     address: string;
     description: string;
     details: {
@@ -48,7 +53,7 @@ const View: NextPage = () => {
   const { t } = useTranslation('common');
   const { pid } = router.query;
   const [data, setData] = useState<Data>({} as Data);
-
+  const dispatch = useDispatch();
   useEffect(() => {
     pid &&
       axios
@@ -66,16 +71,69 @@ const View: NextPage = () => {
         )
         .then((res) => setData(res.data));
   }, [pid]);
-  console.log(data);
+
+  const handleChange = async () => {
+    setData({
+      ...data,
+      sale: {
+        ...data.sale,
+        favorite: !data.sale.favorite
+      }
+    });
+    await axios
+      .put(
+        `${baseUrl}/dashboard/favoritesale`,
+        {
+          _id: data.sale._id,
+          favorite: !data.sale.favorite
+        },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            token: Cookies.get('accessToken') || ''
+          }
+        }
+      )
+      .then((res) => {
+        dispatch(
+          ActionSuccess({
+            title: res.data.message.title,
+            text: res.data.message.text
+          })
+        );
+      })
+      .catch((err) => {
+        dispatch(
+          ActionError({
+            title: err.response.data.message.title,
+            text: err.response.data.message.text
+          })
+        );
+      });
+  };
 
   return (
     <DashboardStyled>
       <h1>{t('preview-title-1')}</h1>
       <p>{t('preview-text-1')}</p>
       {Object.keys(data).length > 0 && (
-        <main>
-          <h2>{data.sale.title}</h2>
-          <p>{data.sale.address}</p>
+        <ViewBox>
+          <ViewHeader>
+            <div>
+              <h2>{data.sale.title}</h2>
+              <p>{data.sale.address}</p>
+            </div>
+            <ViewFavoriteButton onClick={handleChange}>
+              <AtomIcon
+                name={
+                  data.sale.favorite
+                    ? 'icons/navbar/favorite'
+                    : 'icons/navbar/hearthempty'
+                }
+                active={data.sale.favorite}
+              />
+            </ViewFavoriteButton>
+          </ViewHeader>
           <ViewImagesContainer>
             {data.sale.images.map((item, index) =>
               index === 0 ? (
@@ -129,7 +187,7 @@ const View: NextPage = () => {
             </ViewArticleOne>
             <article></article>
           </ViewArticles>
-        </main>
+        </ViewBox>
       )}
     </DashboardStyled>
   );

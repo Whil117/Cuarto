@@ -23,6 +23,7 @@ import { getDownloadURL, getStorage, ref, uploadBytes } from 'firebase/storage';
 import Cookies from 'js-cookie';
 import { NextPage } from 'next';
 import useTranslation from 'next-translate/useTranslation';
+import Router from 'next/router';
 import { SyntheticEvent } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { TypesReducers } from 'redux/reducers/pages/addsale/reducer';
@@ -101,6 +102,9 @@ const Addsale: NextPage = () => {
               })
             );
             dispatch(ActionCleanForm());
+            setTimeout(() => {
+              Router.push('/dashboard/list');
+            }, 2500);
           }
         })
         .catch((err) => {
