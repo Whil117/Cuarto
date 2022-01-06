@@ -1,5 +1,6 @@
 import styled from '@emotion/styled';
 import { colors } from '@Styles/global/colors';
+import { TypeTheme } from '@Styles/global/theme';
 
 export const NavbarStyled = styled.nav`
   display: flex;
@@ -14,6 +15,9 @@ export const NavbarStyled = styled.nav`
   top: 0;
   justify-content: space-between;
   height: 100%;
+  background-color: ${({ theme }: { theme?: TypeTheme }) =>
+    theme && theme.backgroundColor.secondary};
+  }
 `;
 
 export const NavbarArticles = styled.article`
@@ -23,14 +27,17 @@ export const NavbarHeader = styled.header`
   display: flex;
   align-items: center;
   justify-content: center;
+  h1 {
+    color: ${({ theme }: { theme?: TypeTheme }) => theme && theme.color};
+  }
 `;
 
 export const NavbarListItem = styled.a`
   display: flex;
   align-items: center;
   margin: 10px 0;
-  color: ${({ checked }: { checked: boolean }) =>
-    checked ? colors.blue : colors.black};
+  color: ${({ checked, theme }: { checked: boolean; theme?: TypeTheme }) =>
+    checked ? colors.blue : theme?.color};
   font-weight: 500;
   text-decoration: none;
 `;

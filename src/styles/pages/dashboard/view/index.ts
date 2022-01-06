@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+import Theme from '@Types/pages/dashboard/settings/types';
 import Image from 'next/image';
 
 export const ViewImagesContainer = styled.article`
@@ -26,8 +27,9 @@ export const ViewArticles = styled.div`
 export const ViewArticleOne = styled.article`
   width: 400px;
 `;
-export const ViewOfferContainer = styled.div`
-  background: #ffffff;
+export const ViewOfferContainer = styled.div<Theme>`
+  background: ${({ theme }) => theme && theme.backgroundColor.primary};
+  border: 1px solid ${({ theme }) => theme && theme.borderColor};
   box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.25);
   border-radius: 5px;
   display: grid;

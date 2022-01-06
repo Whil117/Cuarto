@@ -13,6 +13,7 @@ import {
 } from '@Redux/actions/actions';
 import { DashboardStyled } from '@Styles/global';
 import * as S from '@Styles/pages/dashboard/addsale';
+import { SettingsH1, SettingsP } from '@Styles/pages/dashboard/settings';
 import {
   ChangeState,
   Image,
@@ -120,8 +121,8 @@ const Addsale: NextPage = () => {
 
   return (
     <DashboardStyled>
-      <h1>{t('add-sale-title-1')}</h1>
-      <p>{t('add-sale-text-1')}</p>
+      <SettingsH1>{t('add-sale-title-1')}</SettingsH1>
+      <SettingsP>{t('add-sale-text-1')}</SettingsP>
       <S.AddSaleForm onSubmit={handleSubmit}>
         <S.AddSaleLabel htmlFor="title">
           {t('add-sale-sub-title-1')}*
@@ -151,6 +152,7 @@ const Addsale: NextPage = () => {
             type="text"
             id="address"
             name="address"
+            autoComplete="off"
             value={data.address}
             onChange={(event) => handleChangeState(event)}
           />

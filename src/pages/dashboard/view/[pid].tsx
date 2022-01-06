@@ -4,6 +4,13 @@ import LoweReplace from '@Helpers/LoweReplace';
 import { ActionError, ActionSuccess } from '@Redux/actions/actions';
 import { DashboardStyled } from '@Styles/global';
 import {
+  SettingsH1,
+  SettingsH2,
+  SettingsH3,
+  SettingsH4,
+  SettingsP
+} from '@Styles/pages/dashboard/settings';
+import {
   ViewArticleOne,
   ViewArticles,
   ViewImage,
@@ -114,14 +121,14 @@ const View: NextPage = () => {
 
   return (
     <DashboardStyled>
-      <h1>{t('preview-title-1')}</h1>
-      <p>{t('preview-text-1')}</p>
+      <SettingsH1>{t('preview-title-1')}</SettingsH1>
+      <SettingsP>{t('preview-text-1')}</SettingsP>
       {Object.keys(data).length > 0 && (
         <ViewBox>
           <ViewHeader>
             <div>
-              <h2>{data.sale.title}</h2>
-              <p>{data.sale.address}</p>
+              <SettingsH2>{data.sale.title}</SettingsH2>
+              <SettingsP>{data.sale.address}</SettingsP>
             </div>
             <ViewFavoriteButton onClick={handleChange}>
               <AtomIcon
@@ -159,18 +166,18 @@ const View: NextPage = () => {
               )
             )}
           </ViewImagesContainer>
-          <h3>{t('preview-title-2') + data.author.username}</h3>
-          <p>
+          <SettingsH3>{t('preview-title-2') + data.author.username}</SettingsH3>
+          <SettingsP>
             {t('preview-types-1')} {data.sale.details.guests} ·{' '}
             {t('preview-types-2')} {data.sale.details.bathrooms} ·{' '}
             {t('preview-types-3')} {data.sale.details.bedrooms} ·{' '}
             {t('preview-types-4')} {data.sale.details.rooms} ·{' '}
-          </p>
+          </SettingsP>
           <ViewArticles>
             <ViewArticleOne>
-              <p>{data.sale.description}</p>
+              <SettingsP>{data.sale.description}</SettingsP>
               <aside>
-                <h4>{t('preview-title-3')}</h4>
+                <SettingsH4>{t('preview-title-3')}</SettingsH4>
                 <ViewOfferContainer>
                   {data.sale.offer.map((item) => (
                     <ViewOffer>
@@ -179,7 +186,7 @@ const View: NextPage = () => {
                           item.toLocaleLowerCase()
                         )}`}
                       />
-                      <p key={item}>{item}</p>
+                      <SettingsP key={item}>{item}</SettingsP>
                     </ViewOffer>
                   ))}
                 </ViewOfferContainer>

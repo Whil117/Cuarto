@@ -10,6 +10,7 @@ import {
   ListItem,
   ListOptions
 } from '@Styles/pages/dashboard/list';
+import { SettingsH1, SettingsP } from '@Styles/pages/dashboard/settings';
 import { ViewFavoriteButton } from '@Styles/pages/dashboard/view';
 import { SelectorProps } from '@Types/pages/dashboard/addsale/types';
 import axios from 'axios';
@@ -82,8 +83,8 @@ const List: NextPage = () => {
 
   return (
     <DashboardStyled>
-      <h1>{t('list-title-1')}</h1>
-      <p>{t('list-text-1')}</p>
+      <SettingsH1>{t('list-title-1')}</SettingsH1>
+      <SettingsP>{t('list-text-1')}</SettingsP>
       <ListContainer>
         {list?.map((item) => (
           <ListItem>

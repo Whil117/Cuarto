@@ -1,26 +1,27 @@
 import styled from '@emotion/styled';
-import { colors } from '@Styles/global/colors';
-
+import Theme from '@Types/pages/dashboard/settings/types';
 export const ListContainer = styled.div`
   list-style: none;
   width: 800px;
 `;
 
-export const ListAnchor = styled.a`
-  color: ${colors.black};
+export const ListAnchor = styled.a<Theme>`
+  color: ${({ theme }) => theme && theme.color};
   text-decoration: none;
 `;
-export const Listbody = styled.div`
+export const Listbody = styled.div<Theme>`
   width: 1065px;
   height: 103px;
-  background: #ffffff;
+  background: ${({ theme }) => theme && theme.backgroundColor.secondary};
   box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.25);
   border-radius: 10px;
   align-items: center;
   margin: 20px 10px;
   padding: 20px;
   &:hover {
-    background: #f5f5f5;
+    background: ${({ theme }) => theme && theme.backgroundColor.primary};
+    border: 1px solid ${({ theme }) => theme && theme.borderColor};
+    outline: -2px solid ${({ theme }) => theme && theme.borderColor};
   }
 `;
 

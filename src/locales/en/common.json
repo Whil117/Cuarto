@@ -57,8 +57,11 @@
     "preview-types-4": "Rooms",
     "settings-title-1": "Settings",
     "settings-title-2": ">Edit Profile",
-    "settings-title-3": ">Log out",
+    "settings-title-3": ">Theme",
+    "settings-title-4": ">Log out",
     "settings-subtitle-1": "Edit your profile to your liking",
+    "settings-subtitle-2": "Don't worry, your data is automatically saved.",
+    "settings-subtitle-3": "Configure the theme of the application",
     "settings-form-title-1": "Username",
     "settings-form-title-2": "Email",
     "settings-form-title-3": "Password"

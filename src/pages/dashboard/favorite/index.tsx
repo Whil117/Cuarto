@@ -1,26 +1,26 @@
-import { DashboardStyled } from '@Styles/global';
-import withAuth from '@Auth/withAuth';
-import { FC, useEffect, useState } from 'react';
-import useTranslation from 'next-translate/useTranslation';
 import baseUrl from '@Assets/cuartobackend';
-import axios from 'axios';
-import Cookies from 'js-cookie';
+import withAuth from '@Auth/withAuth';
+import { DashboardStyled } from '@Styles/global';
 import {
   ListAnchor,
   Listbody,
   ListContainer,
   ListItem
 } from '@Styles/pages/dashboard/list';
+import { SettingsH1, SettingsP } from '@Styles/pages/dashboard/settings';
+import axios from 'axios';
+import Cookies from 'js-cookie';
+import { NextPage } from 'next';
+import useTranslation from 'next-translate/useTranslation';
 import Link from 'next/link';
+import { useEffect, useState } from 'react';
 type StateList = {
   id: string;
   title: string;
   address: string;
 };
 
-interface IProps {}
-
-const Favorite: FC<IProps> = (props) => {
+const Favorite: NextPage = () => {
   const { t } = useTranslation('common');
   const [list, setList] = useState<StateList[]>([]);
 
@@ -40,8 +40,8 @@ const Favorite: FC<IProps> = (props) => {
   }, []);
   return (
     <DashboardStyled>
-      <h1>{t('favorite-title-1')}</h1>
-      <p>{t('favorite-tilte-text-1')}</p>
+      <SettingsH1>{t('favorite-title-1')}</SettingsH1>
+      <SettingsP>{t('favorite-tilte-text-1')}</SettingsP>
       <ListContainer>
         {list?.map((item) => (
           <ListItem>

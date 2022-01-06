@@ -1,6 +1,10 @@
-import { css } from '@emotion/react';
+import { css, useTheme } from '@emotion/react';
 import { colors } from '@Styles/global/colors';
-export const Normalize = css`
+import { TypeTheme } from './theme';
+
+export const Normalize = () => {
+  const theme: TypeTheme | any = useTheme();
+  return css`
   html {
     line-height: 1.15; /* 1 */
     -webkit-text-size-adjust: 100%; /* 2 */
@@ -10,7 +14,8 @@ export const Normalize = css`
     font-family: "SegoeUI", sans-serif;
     margin: 0;
     transition: 0.4s;
-    color:${colors.black}
+    color:${colors.black};
+  background-color: ${theme.backgroundColor.primary};
   }
     text-decoration: none;
   }
@@ -179,3 +184,4 @@ export const Normalize = css`
       U+2215, U+FEFF, U+FFFD;
   }
 `;
+};

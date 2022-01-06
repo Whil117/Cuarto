@@ -58,8 +58,11 @@
     "preview-types-4": "Dormitorios",
     "settings-title-1": "Configuración",
     "settings-title-2": ">Editar perfil",
-    "settings-title-3": ">Cerrar sesión",
+    "settings-title-3": ">Tema",
+    "settings-title-4": ">Cerrar sesión",
     "settings-subtitle-1": "Edita tu perfil a tu gusto",
+    "settings-subtitle-2": "No te preocupes, tus datos se guardan automaticamente",
+    "settings-subtitle-3": "Cambia el tema de tu aplicación",
     "settings-form-title-1": "Nombre de usuario",
     "settings-form-title-2": "Correo electrónico",
     "settings-form-title-3": "Contraseña"

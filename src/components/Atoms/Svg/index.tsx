@@ -3,6 +3,7 @@ import dynamic from 'next/dynamic';
 import { colors } from '@Styles/global/colors';
 import { css } from '@emotion/react';
 import { useMemo } from 'react';
+import { TypeTheme } from '@Styles/global/theme';
 
 interface SvgDynamicProps {
   active: boolean | undefined;
@@ -13,6 +14,7 @@ interface SvgDynamicProps {
     width: string;
     height: string;
   };
+  theme?: TypeTheme;
 }
 
 const SvgBox = styled.div<SvgDynamicProps>`
@@ -22,11 +24,14 @@ const SvgBox = styled.div<SvgDynamicProps>`
 
   svg {
     path {
-      ${({ active }) =>
-        active &&
-        css`
-          fill: ${colors.blue};
-        `}
+      ${({ active, theme }) =>
+        active
+          ? css`
+              fill: ${colors.blue};
+            `
+          : css`
+              fill: ${theme.color};
+            `}
     }
   }
   width: ${({ width }) => width || '44px'};

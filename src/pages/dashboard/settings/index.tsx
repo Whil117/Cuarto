@@ -3,9 +3,11 @@ import withAuth from '@Auth/withAuth';
 import AtomImg from '@Components/Atoms/Image';
 import AtomIcon from '@Components/Atoms/Svg/index';
 import { css } from '@emotion/react';
+import ThemeContext from '@Hooks/ThemeContext/ThemeContext';
 import { ActionAvatar, ActionLogout } from '@Redux/actions/actions';
 import reducer from '@Redux/reducers/pages/settings/reducer';
 import { DashboardStyled } from '@Styles/global';
+import { themeDark, themeLight } from '@Styles/global/theme';
 import { AddSaleSubmitButton } from '@Styles/pages/dashboard/addsale';
 import * as S from '@Styles/pages/dashboard/settings';
 import {
@@ -19,12 +21,20 @@ import Cookies from 'js-cookie';
 import { NextPage } from 'next';
 import useTranslation from 'next-translate/useTranslation';
 import Router from 'next/router';
-import { SyntheticEvent, useReducer } from 'react';
+import {
+  SyntheticEvent,
+  useContext,
+  useEffect,
+  useReducer,
+  useState
+} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 const Settings: NextPage = () => {
   const data = useSelector((state: SelectorProps) => state.user);
   const [form, formDispatch] = useReducer(reducer, data);
+  const [checked, setChecked] = useState(false);
+  const { theme, setTheme } = useContext(ThemeContext);
   const dispatch = useDispatch();
   const { t } = useTranslation('common');
 
@@ -108,6 +118,17 @@ const Settings: NextPage = () => {
         });
     }
   };
+
+  const handleTheme = () => {
+    setChecked(!checked);
+    localStorage.setItem('theme', `${checked ? 'Light' : 'Dark'}`);
+    setTheme(checked ? themeLight : themeDark);
+  };
+
+  useEffect(() => {
+    setChecked(localStorage.getItem('theme') !== 'Light');
+  }, [theme]);
+
   const styles = css`
     width: 150px;
     height: 40px;
@@ -119,10 +140,10 @@ const Settings: NextPage = () => {
 
   return (
     <DashboardStyled>
-      <h1>{t('settings-title-1')}</h1>
+      <S.SettingsH1>{t('settings-title-1')}</S.SettingsH1>
       <article>
-        <h2>{t('settings-title-2')}</h2>
-        <p>{t('settings-subtitle-1')}</p>
+        <S.SettingsH2>{t('settings-title-2')}</S.SettingsH2>
+        <S.SettingsP>{t('settings-subtitle-1')}</S.SettingsP>
         <S.EditProfileStyle>
           <S.SettingsAside image={form.avatar}>
             <div>
@@ -174,7 +195,32 @@ const Settings: NextPage = () => {
         </S.EditProfileStyle>
       </article>
       <article>
-        <h2>{t('settings-title-3')}</h2>
+        <S.SettingsH2>{t('settings-title-3')}</S.SettingsH2>
+        <S.SettingsP>{t('settings-subtitle-3')}</S.SettingsP>
+        <div>
+          <input
+            type="radio"
+            id="light"
+            name="drone"
+            value="huey"
+            checked={checked === false}
+            onChange={handleTheme}
+          />
+          <S.SettingsFormLabel htmlFor="light">Light</S.SettingsFormLabel>
+          <input
+            type="radio"
+            id="dark"
+            name="drone"
+            value="huey"
+            checked={checked}
+            onChange={handleTheme}
+          />
+          <S.SettingsFormLabel htmlFor="dark">Dark</S.SettingsFormLabel>
+        </div>
+      </article>
+      <article>
+        <S.SettingsH2>{t('settings-title-4')}</S.SettingsH2>
+        <S.SettingsP>{t('settings-subtitle-2')}</S.SettingsP>
         <AddSaleSubmitButton onClick={handleLogOut} {...styles}>
           Log out
         </AddSaleSubmitButton>
